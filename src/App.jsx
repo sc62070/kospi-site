@@ -401,24 +401,36 @@ function NewsSection({ newsData }) {
   return (
     <section id="news" className="px-4 sm:px-6 py-6">
       {briefing && (
-        <div className="card-surface rounded-2xl p-4 sm:p-6 mb-6" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>시장 브리핑</span>
-            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
+        <>
+          <div className="card-surface rounded-2xl p-4 sm:p-6 mb-6" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>시장 브리핑</span>
+              <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
+            </div>
+            <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
+            <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'var(--color-text-dim)' }}>{briefing.summary}</p>
+            {briefing.detail && (
+              <button onClick={() => setBriefingOpen(true)} className="mt-3 text-xs font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>자세히 보기</button>
+            )}
           </div>
-          <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
-          <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'var(--color-text-dim)' }}>{briefing.summary}</p>
-          {briefing.detail && (
-            <>
-              {briefingOpen && (
-                <div className="mt-4 text-sm leading-relaxed space-y-4" style={{ color: 'var(--color-text-dim)' }} dangerouslySetInnerHTML={{ __html: briefing.detail }} />
-              )}
-              <button onClick={() => setBriefingOpen(!briefingOpen)} className="mt-3 text-xs font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
-                {briefingOpen ? '접기' : '자세히 보기'}
-              </button>
-            </>
+          {briefingOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setBriefingOpen(false)}>
+              <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-6" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }} onClick={e => e.stopPropagation()}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>시장 브리핑</span>
+                    <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
+                  </div>
+                  <button onClick={() => setBriefingOpen(false)} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>
+                    <X size={18} />
+                  </button>
+                </div>
+                <h3 className="font-bold text-xl mb-4" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
+                <div className="text-sm leading-relaxed space-y-4" style={{ color: 'var(--color-text-dim)' }} dangerouslySetInnerHTML={{ __html: briefing.detail }} />
+              </div>
+            </div>
           )}
-        </div>
+        </>
       )}
 
       <div className="flex items-center justify-between mb-4">
