@@ -542,15 +542,22 @@ function BlogSection() {
 
   if (selectedPost) {
     return (
-      <section id="blog" className="px-4 sm:px-6 py-6">
-        <button onClick={() => setSelectedPost(null)} className="mb-4 text-sm font-medium bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>← 목록으로</button>
+      <section id="blog" className="px-4 sm:px-6 py-6 max-w-3xl mx-auto">
+        <button onClick={() => setSelectedPost(null)} className="mb-6 text-sm font-medium bg-transparent border-none cursor-pointer flex items-center gap-1" style={{ color: 'var(--color-brand)' }}>
+          ← 목록으로
+        </button>
         <article>
-          <div className="mb-4">
+          <img src={selectedPost.thumbnail} alt={selectedPost.title} className="w-full h-48 sm:h-64 object-cover rounded-xl mb-6" />
+          <div className="flex items-center gap-2 mb-3">
             <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{selectedPost.category}</span>
-            <span className="text-xs ml-2" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
+            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
           </div>
-          <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
-          <div className="prose text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }} dangerouslySetInnerHTML={{ __html: selectedPost.content }} />
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 leading-tight" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
+          <div
+            className="blog-content text-sm leading-relaxed"
+            style={{ color: 'var(--color-text-dim)' }}
+            dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+          />
         </article>
       </section>
     )
@@ -558,16 +565,20 @@ function BlogSection() {
 
   return (
     <section id="blog" className="px-4 sm:px-6 py-6">
-      <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>블로그</h2>
-      <div className="space-y-4">
+      <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--color-text)' }}>블로그</h2>
+      <p className="text-sm mb-6" style={{ color: 'var(--color-text-muted)' }}>주식 투자에 필요한 지식과 시장 분석을 정리합니다.</p>
+      <div className="grid gap-4">
         {posts.map(post => (
-          <button key={post.slug} onClick={() => setSelectedPost(post)} className="w-full text-left p-4 rounded-xl transition-all hover:opacity-80 bg-transparent border cursor-pointer" style={{ borderColor: 'var(--color-border)' }}>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{post.category}</span>
-              <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+          <button key={post.slug} onClick={() => setSelectedPost(post)} className="w-full text-left rounded-xl overflow-hidden transition-all hover:opacity-90 bg-transparent border cursor-pointer" style={{ borderColor: 'var(--color-border)' }}>
+            <img src={post.thumbnail} alt={post.title} className="w-full h-40 object-cover" />
+            <div className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{post.category}</span>
+                <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+              </div>
+              <h3 className="font-bold text-base mb-1 leading-snug" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
+              <p className="text-sm line-clamp-2" style={{ color: 'var(--color-text-dim)' }}>{post.summary}</p>
             </div>
-            <h3 className="font-bold text-base mb-1" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
-            <p className="text-sm" style={{ color: 'var(--color-text-dim)' }}>{post.summary}</p>
           </button>
         ))}
       </div>
