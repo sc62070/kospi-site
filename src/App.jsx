@@ -547,7 +547,6 @@ function BlogSection() {
           ← 목록으로
         </button>
         <article>
-          <img src={selectedPost.thumbnail} alt={selectedPost.title} className="w-full h-48 sm:h-64 object-cover rounded-xl mb-6" />
           <div className="flex items-center gap-2 mb-3">
             <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{selectedPost.category}</span>
             <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
