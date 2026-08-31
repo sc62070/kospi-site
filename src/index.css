@@ -98,3 +98,73 @@ body {
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* Theme Toggle */
+.theme-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--color-pill);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-card);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+  left: 2px;
+}
+
+.theme-toggle-thumb.is-right {
+  transform: translateX(20px);
+}
+
+.theme-toggle-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  transition: opacity 0.2s;
+}
+
+.theme-toggle-icon.is-active {
+  opacity: 1;
+  color: var(--color-text);
+}
+
+.theme-toggle-icon:first-of-type {
+  left: 6px;
+}
+
+.theme-toggle-icon:last-of-type {
+  right: 6px;
+}
+
+/* Market Status Strip */
+.market-status-strip {
+  background-color: var(--color-pill);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Glow effect for regular status */
+.glow-regular {
+  text-shadow: 0 0 8px var(--color-regular-glow);
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
