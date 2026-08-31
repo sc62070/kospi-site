@@ -322,7 +322,7 @@ function StockCard({ stock }) {
   )
 }
 
-function Dashboard({ data, newsData }) {
+function Dashboard({ data, newsData, setActiveTab }) {
   const [showIndices, setShowIndices] = useState(false)
 
   const allNews = newsData?.data?.[0]?.items || []
@@ -355,26 +355,23 @@ function Dashboard({ data, newsData }) {
 
       {allNews.length > 0 && (
         <div className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>뉴스</h2>
-            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>최신 {allNews.length}건</span>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>뉴스</h2>
+            <button onClick={() => setActiveTab('news')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>더보기 →</button>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-            {allNews.slice(0, 6).map((item, i) => (
-              <a key={item.id || i} href={item.articleUrl} target="_blank" rel="noopener noreferrer" className="card-surface rounded-xl p-4 transition-all hover:ring-2 block no-underline" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
-                <div className="flex items-start gap-3">
-                  {item.thumbnailUrl && (
-                    <img src={item.thumbnailUrl} alt="" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" loading="lazy" />
-                  )}
-                  <div className="min-w-0">
-                    <h3 className="font-medium text-sm mb-1 line-clamp-2" style={{ color: 'var(--color-text)' }}>{item.title}</h3>
-                    <div className="flex items-center gap-2 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
-                      <span>{item.source}</span>
-                      <span>·</span>
-                      <span>{new Date(item.publishedAt).toLocaleDateString('ko-KR')}</span>
-                    </div>
+          <div className="divide-y" style={{ borderColor: 'var(--color-border)' }}>
+            {allNews.slice(0, 5).map((item, i) => (
+              <a key={item.id || i} href={item.articleUrl} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 py-3 first:pt-0 last:pb-0 transition-opacity hover:opacity-70 block no-underline" style={{ borderBottomColor: 'var(--color-border)' }}>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{item.source}</span>
+                    <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{new Date(item.publishedAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
+                  <h3 className="font-medium text-sm leading-snug" style={{ color: 'var(--color-text)' }}>{item.title}</h3>
                 </div>
+                {item.thumbnailUrl && (
+                  <img src={item.thumbnailUrl} alt="" className="w-[60px] h-[42px] rounded object-cover flex-shrink-0 mt-0.5" loading="lazy" />
+                )}
               </a>
             ))}
           </div>
@@ -663,7 +660,7 @@ function App() {
       <main className="max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} />
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
-        {activeTab === 'dashboard' && <Dashboard data={priceData} newsData={newsData} />}
+        {activeTab === 'dashboard' && <Dashboard data={priceData} newsData={newsData} setActiveTab={setActiveTab} />}
         {activeTab === 'news' && <NewsSection newsData={newsData} />}
         {activeTab === 'reports' && <ReportsSection reportsData={reportsData} />}
         <Footer setActiveTab={setActiveTab} />
