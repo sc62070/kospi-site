@@ -382,6 +382,8 @@ function Dashboard({ data, newsData, setActiveTab }) {
 }
 
 function NewsSection({ newsData }) {
+  const [briefingOpen, setBriefingOpen] = useState(false)
+
   if (!newsData) {
     return (
       <section id="news" className="px-4 sm:px-6 py-6">
@@ -405,7 +407,17 @@ function NewsSection({ newsData }) {
             <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
           </div>
           <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>{briefing.summary}</p>
+          <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'var(--color-text-dim)' }}>{briefing.summary}</p>
+          {briefing.detail && (
+            <>
+              {briefingOpen && (
+                <div className="mt-4 text-sm leading-relaxed space-y-4" style={{ color: 'var(--color-text-dim)' }} dangerouslySetInnerHTML={{ __html: briefing.detail }} />
+              )}
+              <button onClick={() => setBriefingOpen(!briefingOpen)} className="mt-3 text-xs font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
+                {briefingOpen ? '접기' : '자세히 보기'}
+              </button>
+            </>
+          )}
         </div>
       )}
 
