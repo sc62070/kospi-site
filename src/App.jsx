@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Sun, Moon, Download, RefreshCw, GripVertical } from 'lucide-react'
+import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
 import './index.css'
 
 const LOGOS = {
-  samsung: '/logos/samsung.svg',
-  skhynix: '/logos/skhynix.svg',
-  hyundai: '/logos/hyundai.svg',
+  samsung: '/logos/samsung.png',
+  skhynix: '/logos/skhynix.png',
+  hyundai: '/logos/hyundai.png',
 }
 
 const MAIN_STOCKS = ['samsung', 'skhynix', 'hyundai']
@@ -178,14 +178,67 @@ function Navigation({ activeTab, setActiveTab }) {
   )
 }
 
-function KOSPIIndexCard({ index }) {
+function IndicesModal({ indices, onClose }) {
+  if (!indices) return null
+  const indexList = Object.values(indices)
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+      onClick={onClose}
+    >
+      <div 
+        className="w-full max-w-lg rounded-2xl p-6"
+        style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>시장 지수</h2>
+          <button 
+            onClick={onClose}
+            className="p-2 rounded-lg transition-colors"
+            style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}
+          >
+            <X size={18} />
+          </button>
+        </div>
+        <div className="space-y-3">
+          {indexList.map(idx => {
+            const isDown = idx.changePct < 0
+            return (
+              <div 
+                key={idx.code}
+                className="flex items-center justify-between p-4 rounded-xl"
+                style={{ backgroundColor: 'var(--color-pill)' }}
+              >
+                <div>
+                  <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{idx.name}</h3>
+                  <p className="text-xs" style={{ color: 'var(--color-text-dim)' }}>{idx.code}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>{fmt(Math.round(idx.price))}</p>
+                  <p className="text-sm font-semibold" style={{ color: isDown ? 'var(--color-down)' : 'var(--color-up)' }}>
+                    {isDown ? '▼' : '▲'} {fmt(Math.abs(Math.round(idx.change)))} ({fmtPct(idx.changePct)})
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function KOSPIIndexCard({ index, indices, onShowIndices }) {
   if (!index) return null
   const isDown = index.changePct < 0
 
   return (
-    <button type="button" className="w-full text-left block group cursor-pointer rounded-2xl border-none bg-transparent p-0 focus:outline-none focus-visible:ring-2 transition-shadow" style={{ '--tw-ring-color': 'var(--color-regular)' }}>
+    <button type="button" onClick={onShowIndices} className="w-full text-left block group cursor-pointer rounded-2xl border-none bg-transparent p-0 focus:outline-none focus-visible:ring-2 transition-shadow" style={{ '--tw-ring-color': 'var(--color-regular)' }}>
       <div 
-        className="card-surface rounded-2xl px-4 py-3.5 sm:px-6 sm:py-4 ring-1 ring-transparent transition-all"
+        className="card-surface rounded-2xl px-4 py-3.5 sm:px-6 sm:py-4 ring-1 ring-transparent group-hover:ring-regular/30 transition-all"
         style={{ 
           backgroundColor: 'var(--color-card)',
           borderColor: 'var(--color-border)'
@@ -194,7 +247,7 @@ function KOSPIIndexCard({ index }) {
         <div className="flex min-w-0 items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
             <div className="hidden h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 sm:flex" style={{ backgroundColor: 'white', borderColor: 'var(--color-border)' }}>
-              <span className="text-xl">🇰🇷</span>
+              <img src="/logos/kr-flag.svg" alt="대한민국 국기" className="h-6 w-auto" />
             </div>
             <div className="min-w-0">
               <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
@@ -219,6 +272,7 @@ function KOSPIIndexCard({ index }) {
               <span className="sm:hidden">{fmt(Math.round(index.price / 10) * 10)}</span>
               <span className="hidden sm:inline">{fmt(Math.round(index.price * 100) / 100)}</span>
             </div>
+            <span className="text-lg leading-none transition-colors" style={{ color: 'var(--color-text-dim)', opacity: 0.6 }}>›</span>
           </div>
         </div>
       </div>
@@ -234,13 +288,13 @@ function StockCard({ stock }) {
 
   return (
     <div className="relative">
-      <div className="flip-wrap">
-        <div className="flip-inner">
+      <div className="flip-wrap" style={{ height: '320px' }}>
+        <div className="flip-inner relative w-full h-full">
           {/* Front */}
-          <div className="flip-face">
+          <div className="flip-face absolute inset-0">
             <div 
               className="card-surface rounded-2xl p-5 h-full"
-              style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)', gap: 0 }}
+              style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
             >
               <div className="mb-3 flex items-center gap-2 pr-12 min-h-10">
                 {logoSrc ? (
@@ -294,10 +348,10 @@ function StockCard({ stock }) {
           </div>
 
           {/* Back */}
-          <div className="flip-face flip-back">
+          <div className="flip-face flip-back absolute inset-0">
             <div 
               className="card-surface rounded-2xl p-5 h-full flex flex-col"
-              style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)', gap: 0 }}
+              style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
             >
               <div className="mb-3 flex items-center gap-2 pr-12 min-h-10">
                 {logoSrc ? (
@@ -342,6 +396,8 @@ function StockCard({ stock }) {
 }
 
 function Dashboard({ data }) {
+  const [showIndices, setShowIndices] = useState(false)
+
   if (!data) {
     return (
       <section id="dashboard" className="px-4 sm:px-6 py-6">
@@ -358,7 +414,18 @@ function Dashboard({ data }) {
 
   return (
     <section id="dashboard" className="space-y-5">
-      <KOSPIIndexCard index={kospiIndex} />
+      <KOSPIIndexCard 
+        index={kospiIndex} 
+        indices={data.indices}
+        onShowIndices={() => setShowIndices(true)} 
+      />
+
+      {showIndices && (
+        <IndicesModal 
+          indices={data.indices} 
+          onClose={() => setShowIndices(false)} 
+        />
+      )}
 
       <div className="space-y-4">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">

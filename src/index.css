@@ -61,6 +61,7 @@ body {
 .flip-inner {
   transition: transform 0.6s;
   transform-style: preserve-3d;
+  position: relative;
 }
 
 .flip-wrap:hover .flip-inner {
@@ -69,6 +70,8 @@ body {
 
 .flip-face {
   backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
 }
 
 .flip-back {
