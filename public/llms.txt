@@ -1,0 +1,27 @@
+# KOSPI.SITE
+
+삼성전자, SK하이닉스, 현대차의 실시간 시세를 비교하는 한국 주식 투자 대시보드입니다.
+
+## 주요 기능
+
+- [대시보드](https://kospi.site) - 실시간 주식 시세 비교 (삼성전자, SK하이닉스, 현대차)
+- [뉴스](https://kospi.site/news) - 시장 브리핑 및 최신 뉴스
+- [리포트](https://kospi.site/reports) - 애널리스트 목표가 및 의견
+- [블로그](https://kospi.site/blog) - 투자 가이드 및 시장 분석
+
+## 블로그 콘텐츠
+
+- [코스피 6000 시대 투자 가이드](https://kospi.site/blog/코스피-6000-시대-지금-들어가도-늦지-않았나요)
+- [초보자 ETF 완전 가이드](https://kospi.site/blog/초보자-ETF-완전-가이드)
+- [삼성전자 vs SK하이닉스 분석](https://kospi.site/blog/삼성전자-vs-SK하이닉스-2026년-반도체-투자-분석)
+- [월배당 ETF 가이드](https://kospi.site/blog/월배당-ETF로-월-50만원-받으려면-얼마가-필요할까)
+- [주식 투자 세금 완전 정복](https://kospi.site/blog/주식-투자-세금-완전-정복)
+- [반도체·AI 투자 전략](https://kospi.site/blog/반도체-AI-투자-전략-HBM4-시대의-기회와-리스크)
+
+## 데이터 소스
+
+실시간 데이터는 kospilab.com API를 통해 제공됩니다.
+
+## 문의
+
+- 이메일: contact@kospi.site

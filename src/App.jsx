@@ -80,7 +80,7 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
               </span>
             )}
           </div>
-          <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark}>
+          <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark} aria-label="다크모드 토글">
             <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
             <span className={`theme-toggle-icon ${!isDark ? 'is-active' : ''}`}><Sun size={14} /></span>
             <span className={`theme-toggle-icon ${isDark ? 'is-active' : ''}`}><Moon size={14} /></span>
@@ -114,7 +114,7 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
             <h1 className="text-xl font-bold leading-none tracking-tight" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
           </Link>
           <div className="flex justify-end">
-            <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark}>
+            <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark} aria-label="다크모드 토글">
               <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
               <span className={`theme-toggle-icon ${!isDark ? 'is-active' : ''}`}><Sun size={14} /></span>
               <span className={`theme-toggle-icon ${isDark ? 'is-active' : ''}`}><Moon size={14} /></span>
