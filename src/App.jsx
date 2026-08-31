@@ -560,12 +560,22 @@ function BlogSection() {
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('전체')
 
+  const getReadingTime = (content) => {
+    const text = content.replace(/<[^>]+>/g, '')
+    const chars = text.length
+    return Math.max(1, Math.ceil(chars / 900))
+  }
+
+  const getCategoryCount = (cat) => {
+    if (cat === '전체') return posts.length
+    return posts.filter(p => p.category === cat).length
+  }
+
   const categories = ['전체', ...new Set(posts.map(p => p.category))]
   const filteredPosts = selectedCategory === '전체' ? posts : posts.filter(p => p.category === selectedCategory)
 
   const selectedPost = slug ? posts.find(p => p.slug === slug) : null
 
-  // 블로그 포스트 상세 페이지에서 문서 제목 업데이트
   useEffect(() => {
     if (selectedPost) {
       document.title = `${selectedPost.title} | KOSPI.SITE`
@@ -576,15 +586,30 @@ function BlogSection() {
   }, [selectedPost])
 
   if (selectedPost) {
+    const readingTime = getReadingTime(selectedPost.content)
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": selectedPost.title,
+      "datePublished": selectedPost.date,
+      "author": { "@type": "Organization", "name": "KOSPI.SITE" },
+      "publisher": { "@type": "Organization", "name": "KOSPI.SITE" },
+      "description": selectedPost.summary,
+      "image": selectedPost.thumbnail,
+      "mainEntityOfPage": `https://kospi.site/blog/${selectedPost.slug}`
+    }
+
     return (
       <section id="blog" className="px-4 sm:px-6 py-6 max-w-3xl mx-auto">
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <button onClick={() => navigate('/blog')} className="mb-8 text-sm font-medium bg-transparent border-none cursor-pointer flex items-center gap-2 transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
           <span className="text-lg">←</span> {t.backToList}
         </button>
         <article>
-          <div className="mb-4">
+          <div className="mb-4 flex items-center gap-3 flex-wrap">
             <span className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}>{selectedPost.category}</span>
-            <span className="text-xs ml-3" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
+            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
+            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>약 {readingTime}분 소요</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-8 leading-tight" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
           <div className="h-px mb-8" style={{ backgroundColor: 'var(--color-border)' }}></div>
@@ -622,7 +647,7 @@ function BlogSection() {
               color: selectedCategory === cat ? 'white' : 'var(--color-text-dim)',
             }}
           >
-            {cat}
+            {cat} <span className="ml-1 opacity-60">{getCategoryCount(cat)}</span>
           </button>
         ))}
       </div>
@@ -635,12 +660,13 @@ function BlogSection() {
           style={{ borderColor: 'var(--color-border)' }}
         >
           <div className="relative">
-            <img src={filteredPosts[0].thumbnail} alt="" className="w-full h-56 sm:h-72 object-cover" />
+            <img src={filteredPosts[0].thumbnail} alt="" loading="lazy" className="w-full h-56 sm:h-72 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-6">
               <span className="text-xs px-2 py-1 rounded-full font-medium mb-3 inline-block" style={{ backgroundColor: 'rgba(255,255,255,0.2)', color: 'white' }}>{filteredPosts[0].category}</span>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight">{filteredPosts[0].title}</h3>
               <p className="text-sm text-white/80 line-clamp-2">{filteredPosts[0].summary}</p>
+              <span className="text-xs text-white/60 mt-2 inline-block">약 {getReadingTime(filteredPosts[0].content)}분 읽기</span>
             </div>
           </div>
         </button>
@@ -656,7 +682,7 @@ function BlogSection() {
             style={{ borderColor: 'var(--color-border)' }}
           >
             <div className="relative">
-              <img src={post.thumbnail} alt="" className="w-full h-40 object-cover transition-transform group-hover:scale-105" />
+              <img src={post.thumbnail} alt="" loading="lazy" className="w-full h-40 object-cover transition-transform group-hover:scale-105" />
               <div className="absolute top-3 left-3">
                 <span className="text-[11px] px-2 py-1 rounded-full font-medium" style={{ backgroundColor: 'rgba(0,0,0,0.5)', color: 'white', backdropFilter: 'blur(4px)' }}>{post.category}</span>
               </div>
@@ -665,7 +691,7 @@ function BlogSection() {
               <h3 className="font-bold text-sm mb-2 leading-snug line-clamp-2" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
               <p className="text-xs line-clamp-2 mb-3" style={{ color: 'var(--color-text-dim)' }}>{post.summary}</p>
               <div className="flex items-center justify-between">
-                <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+                <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date} · 약 {getReadingTime(post.content)}분</span>
                 <span className="text-[11px] font-medium" style={{ color: 'var(--color-brand)' }}>읽기 →</span>
               </div>
             </div>
@@ -731,6 +757,19 @@ function Footer() {
   )
 }
 
+function NotFound() {
+  const navigate = useNavigate()
+  return (
+    <section className="px-4 sm:px-6 py-20 text-center">
+      <h1 className="text-6xl font-bold mb-4" style={{ color: 'var(--color-text)' }}>404</h1>
+      <p className="text-lg mb-8" style={{ color: 'var(--color-text-muted)' }}>페이지를 찾을 수 없습니다</p>
+      <button onClick={() => navigate('/')} className="px-6 py-3 rounded-lg font-medium text-white border-none cursor-pointer" style={{ backgroundColor: 'var(--color-brand)' }}>
+        메인으로 돌아가기
+      </button>
+    </section>
+  )
+}
+
 function App() {
   const { t } = useLang()
   const [isDark, setIsDark] = useState(true)
@@ -787,6 +826,7 @@ function App() {
           <Route path="/reports" element={<ReportsSection reportsData={reportsData} t={t} />} />
           <Route path="/blog" element={<BlogSection t={t} />} />
           <Route path="/blog/:slug" element={<BlogSection t={t} />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer t={t} />
       </main>
