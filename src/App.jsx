@@ -51,11 +51,6 @@ function AnimatedNumber({ value, duration = 800 }) {
 function Header({ isDark, setIsDark, fx, lastUpdated }) {
   const { t } = useLang()
   const timeLabel = lastUpdated ? new Date(lastUpdated).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : null
-  const [viewerCount] = useState(() => {
-    const base = 3
-    const hour = new Date().getHours()
-    return base + (hour % 5)
-  })
 
   return (
     <header className="mb-2 md:mb-9 px-4 sm:px-6">
@@ -126,9 +121,6 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
             </button>
           </div>
         </div>
-      </div>
-      <div className="hidden md:flex justify-center mt-1">
-        <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{viewerCount}명 보는 중</span>
       </div>
     </header>
   )
