@@ -1,16 +1,14 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Sun, Moon, Plus, MessageSquare, ArrowRight, GripVertical, RefreshCw } from 'lucide-react'
+import { Sun, Moon, Download, RefreshCw, GripVertical } from 'lucide-react'
 import './index.css'
 
-const LOGO_MAP = {
-  samsung: '🟦',
-  skhynix: '🟩',
-  hyundai: '🟧',
-  semco: '🟪',
-  hanmi: '🟥',
-  naver: '🟨',
-  lge: '🟫',
+const LOGOS = {
+  samsung: '/logos/samsung.svg',
+  skhynix: '/logos/skhynix.svg',
+  hyundai: '/logos/hyundai.svg',
 }
+
+const MAIN_STOCKS = ['samsung', 'skhynix', 'hyundai']
 
 const fmt = (n) => new Intl.NumberFormat('ko-KR').format(n)
 const fmtPct = (n) => {
@@ -95,7 +93,7 @@ function Navigation({ activeTab, setActiveTab }) {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap`}
+            className="px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
             style={{ 
               backgroundColor: activeTab === tab.id ? 'var(--color-brand)' : 'transparent',
               color: activeTab === tab.id ? 'white' : 'var(--color-text-dim)'
@@ -138,10 +136,10 @@ function IndexCard({ index }) {
   )
 }
 
-function StockCard({ stock, fx }) {
+function StockCard({ stock }) {
   const { meta, perp, kr, computed } = stock
   const isUp = computed.vsClosePct >= 0
-  const logo = LOGO_MAP[meta.slug] || '📊'
+  const logoSrc = LOGOS[meta.slug]
 
   return (
     <div className="flip-wrap h-56">
@@ -152,8 +150,14 @@ function StockCard({ stock, fx }) {
           style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
         >
           <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{logo}</span>
+            <div className="flex items-center gap-3">
+              {logoSrc ? (
+                <img src={logoSrc} alt={meta.name} className="w-10 h-10 rounded-xl object-contain" />
+              ) : (
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>
+                  {meta.name[0]}
+                </div>
+              )}
               <div>
                 <h3 className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>{meta.name}</h3>
                 <p className="text-xs" style={{ color: 'var(--color-text-dim)' }}>{meta.krxTicker}</p>
@@ -189,7 +193,13 @@ function StockCard({ stock, fx }) {
           className="flip-face flip-back absolute inset-0 card-surface rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center"
           style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
         >
-          <span className="text-3xl mb-2">{logo}</span>
+          {logoSrc ? (
+            <img src={logoSrc} alt={meta.name} className="w-14 h-14 rounded-xl object-contain mb-2" />
+          ) : (
+            <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl font-bold mb-2" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>
+              {meta.name[0]}
+            </div>
+          )}
           <h3 className="font-bold text-lg mb-1" style={{ color: 'var(--color-text)' }}>{meta.name}</h3>
           <p className="text-sm mb-1" style={{ color: 'var(--color-text-dim)' }}>{meta.krxTicker}</p>
           <p className="text-xs mb-3" style={{ color: 'var(--color-text-muted)' }}>국내 종가 기준</p>
@@ -211,7 +221,7 @@ function StockCard({ stock, fx }) {
   )
 }
 
-function Dashboard({ data, fx }) {
+function Dashboard({ data }) {
   if (!data) {
     return (
       <section id="dashboard" className="px-4 sm:px-6 py-6">
@@ -224,6 +234,7 @@ function Dashboard({ data, fx }) {
   }
 
   const indices = Object.values(data.indices)
+  const mainStocks = data.stocks.filter(s => MAIN_STOCKS.includes(s.meta.slug))
 
   return (
     <section id="dashboard" className="px-4 sm:px-6 py-6">
@@ -234,24 +245,11 @@ function Dashboard({ data, fx }) {
         ))}
       </div>
 
-      {/* Stock Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {data.stocks.map(stock => (
-          <StockCard key={stock.meta.slug} stock={stock} fx={fx} />
+      {/* Stock Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {mainStocks.map(stock => (
+          <StockCard key={stock.meta.slug} stock={stock} />
         ))}
-        <div 
-          className="card-surface rounded-2xl p-4 sm:p-5 flex items-center justify-center cursor-pointer transition-all hover:ring-2"
-          style={{ 
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-            minHeight: '224px'
-          }}
-        >
-          <div className="text-center">
-            <Plus size={24} className="mx-auto mb-2" style={{ color: 'var(--color-text-dim)' }} />
-            <p className="text-sm font-medium" style={{ color: 'var(--color-text-dim)' }}>카드 추가</p>
-          </div>
-        </div>
       </div>
     </section>
   )
@@ -274,7 +272,6 @@ function NewsSection({ newsData }) {
 
   return (
     <section id="news" className="px-4 sm:px-6 py-6">
-      {/* Briefing */}
       {briefing && (
         <div 
           className="card-surface rounded-2xl p-4 sm:p-6 mb-6"
@@ -291,7 +288,6 @@ function NewsSection({ newsData }) {
         </div>
       )}
 
-      {/* News Grid */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>뉴스</h2>
         <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>최신 {allNews.length}건</span>
@@ -344,6 +340,8 @@ function ReportsSection({ reportsData }) {
     )
   }
 
+  const tickerToSlug = { '005930': 'samsung', '000660': 'skhynix', '005380': 'hyundai' }
+
   return (
     <section id="reports" className="px-4 sm:px-6 py-6">
       <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>애널리스트 리포트</h2>
@@ -353,6 +351,7 @@ function ReportsSection({ reportsData }) {
           const { toss, brokerForecasts, wisereport, name, ticker } = stock
           const consensus = toss?.consensus
           const opinion = toss?.opinion
+          const logoSrc = LOGOS[tickerToSlug[ticker]]
 
           return (
             <div 
@@ -360,10 +359,15 @@ function ReportsSection({ reportsData }) {
               className="card-surface rounded-2xl p-4 sm:p-6"
               style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
             >
-              {/* Header */}
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{LOGO_MAP[stock.ticker] || '📊'}</span>
+                <div className="flex items-center gap-3">
+                  {logoSrc ? (
+                    <img src={logoSrc} alt={name} className="w-10 h-10 rounded-xl object-contain" />
+                  ) : (
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>
+                      {name[0]}
+                    </div>
+                  )}
                   <div>
                     <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{name}</h3>
                     <p className="text-xs" style={{ color: 'var(--color-text-dim)' }}>{ticker}</p>
@@ -377,7 +381,6 @@ function ReportsSection({ reportsData }) {
                 )}
               </div>
 
-              {/* Consensus */}
               {consensus && (
                 <div className="grid grid-cols-3 gap-3 mb-4">
                   <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
@@ -395,7 +398,6 @@ function ReportsSection({ reportsData }) {
                 </div>
               )}
 
-              {/* Opinion Bar */}
               {opinion && (
                 <div className="mb-4">
                   <div className="flex gap-1 h-3 rounded-full overflow-hidden">
@@ -425,7 +427,6 @@ function ReportsSection({ reportsData }) {
                 </div>
               )}
 
-              {/* WiseReport - Operating Income */}
               {wisereport && wisereport.length > 0 && (
                 <div className="mb-4">
                   <p className="text-xs font-semibold mb-2" style={{ color: 'var(--color-text-dim)' }}>영업이익 추이 (조원)</p>
@@ -455,7 +456,6 @@ function ReportsSection({ reportsData }) {
                 </div>
               )}
 
-              {/* Top Broker Forecasts */}
               {brokerForecasts && brokerForecasts.length > 0 && (
                 <div>
                   <p className="text-xs font-semibold mb-2" style={{ color: 'var(--color-text-dim)' }}>최근 애널리스트 리포트</p>
@@ -508,6 +508,50 @@ function ReportsSection({ reportsData }) {
   )
 }
 
+function InstallButton() {
+  const [deferredPrompt, setDeferredPrompt] = useState(null)
+  const [showInstalled, setShowInstalled] = useState(false)
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+
+    window.addEventListener('appinstalled', () => {
+      setShowInstalled(true)
+      setDeferredPrompt(null)
+    })
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+    }
+  }, [])
+
+  const handleInstall = async () => {
+    if (!deferredPrompt) return
+    deferredPrompt.prompt()
+    const { outcome } = await deferredPrompt.userChoice
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null)
+    }
+  }
+
+  if (showInstalled) return null
+
+  return (
+    <button 
+      onClick={handleInstall}
+      className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105"
+      style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}
+    >
+      <Download size={18} />
+      <span className="font-medium">PC/Mobile에 설치</span>
+    </button>
+  )
+}
+
 function Footer({ setActiveTab }) {
   return (
     <footer 
@@ -542,7 +586,7 @@ function App() {
 
   const fetchPrices = useCallback(async () => {
     try {
-      const res = await fetch('https://kospilab.com/api/prices')
+      const res = await fetch('/api/prices')
       const json = await res.json()
       if (json.ok) {
         setPriceData(json)
@@ -555,7 +599,7 @@ function App() {
 
   const fetchNews = useCallback(async () => {
     try {
-      const res = await fetch('https://kospilab.com/api/news')
+      const res = await fetch('/api/news')
       const json = await res.json()
       if (json.ok) {
         setNewsData(json)
@@ -567,7 +611,7 @@ function App() {
 
   const fetchReports = useCallback(async () => {
     try {
-      const res = await fetch('https://kospilab.com/api/reports')
+      const res = await fetch('/api/reports')
       const json = await res.json()
       if (json.ok) {
         setReportsData(json)
@@ -601,7 +645,7 @@ function App() {
         <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} />
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
         
-        {activeTab === 'dashboard' && <Dashboard data={priceData} fx={priceData?.fx} />}
+        {activeTab === 'dashboard' && <Dashboard data={priceData} />}
         {activeTab === 'news' && <NewsSection newsData={newsData} />}
         {activeTab === 'reports' && <ReportsSection reportsData={reportsData} />}
 
@@ -616,13 +660,7 @@ function App() {
         <Footer setActiveTab={setActiveTab} />
       </div>
 
-      <button 
-        className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105"
-        style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}
-      >
-        <MessageSquare size={18} />
-        <span className="font-medium">제안/문의 보내기</span>
-      </button>
+      <InstallButton />
     </div>
   )
 }

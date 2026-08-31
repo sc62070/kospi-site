@@ -1,0 +1,16 @@
+{
+  "name": "KOSPI.SITE",
+  "short_name": "KOSPI.SITE",
+  "description": "국내주식 시세 비교 대시보드",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E1117",
+  "theme_color": "#0E1117",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
