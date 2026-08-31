@@ -331,8 +331,6 @@ function Dashboard({ data, newsData }) {
         ))}
       </div>
 
-      <AdSenseBanner slot="0000000000" format="fluid" />
-
       {allNews.length > 0 && (
         <div className="mt-8">
           <div className="flex items-center justify-between mb-3">
@@ -707,26 +705,6 @@ function InstallButton() {
   )
 }
 
-function AdSenseBanner({ slot, format, style }) {
-  useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({})
-    } catch (e) {}
-  }, [])
-
-  return (
-    <div className="my-6 flex justify-center overflow-hidden" style={style}>
-      <ins className="adsbygoogle"
-        style={{ display: 'block', ...style }}
-        data-ad-client="ca-pub-3187370930413699"
-        data-ad-slot={slot}
-        data-ad-format={format || 'auto'}
-        data-full-width-responsive="true"
-      ></ins>
-    </div>
-  )
-}
-
 function Footer() {
   const { t } = useLang()
   return (
@@ -810,7 +788,6 @@ function App() {
           <Route path="/blog" element={<BlogSection t={t} />} />
           <Route path="/blog/:slug" element={<BlogSection t={t} />} />
         </Routes>
-        <AdSenseBanner slot="0000000000" format="horizontal" />
         <Footer t={t} />
       </main>
       <InstallButton t={t} />
