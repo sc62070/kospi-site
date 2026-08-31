@@ -87,8 +87,8 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
       </div>
 
       <div className="md:hidden">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 px-3 py-2">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center justify-between -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 px-3 py-2">
+          <div className="flex flex-col gap-0.5 min-w-0">
             {timeLabel && (
               <div className="num flex items-center gap-1 text-[11px] whitespace-nowrap">
                 <span className="relative flex h-[6px] w-[6px] shrink-0">
