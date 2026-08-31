@@ -559,24 +559,34 @@ function ReportsSection({ reportsData }) {
 function BlogSection() {
   const { t } = useLang()
   const [selectedPost, setSelectedPost] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState('전체')
+
+  const categories = ['전체', ...new Set(posts.map(p => p.category))]
+  const filteredPosts = selectedCategory === '전체' ? posts : posts.filter(p => p.category === selectedCategory)
 
   if (selectedPost) {
     return (
       <section id="blog" className="px-4 sm:px-6 py-6 max-w-3xl mx-auto">
-        <button onClick={() => setSelectedPost(null)} className="mb-6 text-sm font-medium bg-transparent border-none cursor-pointer flex items-center gap-1" style={{ color: 'var(--color-brand)' }}>
-          {t.backToList}
+        <button onClick={() => setSelectedPost(null)} className="mb-8 text-sm font-medium bg-transparent border-none cursor-pointer flex items-center gap-2 transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
+          <span className="text-lg">←</span> {t.backToList}
         </button>
         <article>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{selectedPost.category}</span>
-            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
+          <div className="mb-4">
+            <span className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}>{selectedPost.category}</span>
+            <span className="text-xs ml-3" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold mb-6 leading-tight" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-8 leading-tight" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
+          <div className="h-px mb-8" style={{ backgroundColor: 'var(--color-border)' }}></div>
           <div
-            className="blog-content text-sm leading-relaxed"
+            className="blog-content text-[15px] leading-relaxed"
             style={{ color: 'var(--color-text-dim)' }}
             dangerouslySetInnerHTML={{ __html: selectedPost.content }}
           />
+          <div className="mt-12 pt-8 border-t" style={{ borderColor: 'var(--color-border)' }}>
+            <button onClick={() => setSelectedPost(null)} className="text-sm font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
+              ← {t.backToList}
+            </button>
+          </div>
         </article>
       </section>
     )
@@ -584,19 +594,69 @@ function BlogSection() {
 
   return (
     <section id="blog" className="px-4 sm:px-6 py-6">
-      <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--color-text)' }}>{t.blogTitle}</h2>
-      <p className="text-sm mb-6" style={{ color: 'var(--color-text-muted)' }}>{t.blogDesc}</p>
-      <div className="grid gap-4">
-        {posts.map(post => (
-          <button key={post.slug} onClick={() => setSelectedPost(post)} className="w-full text-left rounded-xl overflow-hidden transition-all hover:opacity-90 bg-transparent border cursor-pointer" style={{ borderColor: 'var(--color-border)' }}>
-            <img src={post.thumbnail} alt={post.title} className="w-full h-40 object-cover" />
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{post.category}</span>
-                <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+      <div className="mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: 'var(--color-text)' }}>{t.blogTitle}</h2>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{t.blogDesc}</p>
+      </div>
+
+      {/* Category Filter */}
+      <div className="flex gap-2 mb-8 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
+        {categories.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all border-none cursor-pointer"
+            style={{
+              backgroundColor: selectedCategory === cat ? 'var(--color-brand)' : 'var(--color-pill)',
+              color: selectedCategory === cat ? 'white' : 'var(--color-text-dim)',
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Featured Post */}
+      {filteredPosts.length > 0 && (
+        <button
+          onClick={() => setSelectedPost(filteredPosts[0])}
+          className="w-full text-left mb-6 rounded-2xl overflow-hidden transition-all hover:scale-[1.01] bg-transparent border cursor-pointer group"
+          style={{ borderColor: 'var(--color-border)' }}
+        >
+          <div className="relative">
+            <img src={filteredPosts[0].thumbnail} alt="" className="w-full h-56 sm:h-72 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-6">
+              <span className="text-xs px-2 py-1 rounded-full font-medium mb-3 inline-block" style={{ backgroundColor: 'rgba(255,255,255,0.2)', color: 'white' }}>{filteredPosts[0].category}</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight">{filteredPosts[0].title}</h3>
+              <p className="text-sm text-white/80 line-clamp-2">{filteredPosts[0].summary}</p>
+            </div>
+          </div>
+        </button>
+      )}
+
+      {/* Post Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {filteredPosts.slice(1).map(post => (
+          <button
+            key={post.slug}
+            onClick={() => setSelectedPost(post)}
+            className="w-full text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border cursor-pointer group"
+            style={{ borderColor: 'var(--color-border)' }}
+          >
+            <div className="relative">
+              <img src={post.thumbnail} alt="" className="w-full h-40 object-cover transition-transform group-hover:scale-105" />
+              <div className="absolute top-3 left-3">
+                <span className="text-[11px] px-2 py-1 rounded-full font-medium" style={{ backgroundColor: 'rgba(0,0,0,0.5)', color: 'white', backdropFilter: 'blur(4px)' }}>{post.category}</span>
               </div>
-              <h3 className="font-bold text-base mb-1 leading-snug" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
-              <p className="text-sm line-clamp-2" style={{ color: 'var(--color-text-dim)' }}>{post.summary}</p>
+            </div>
+            <div className="p-4">
+              <h3 className="font-bold text-sm mb-2 leading-snug line-clamp-2" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
+              <p className="text-xs line-clamp-2 mb-3" style={{ color: 'var(--color-text-dim)' }}>{post.summary}</p>
+              <div className="flex items-center justify-between">
+                <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+                <span className="text-[11px] font-medium" style={{ color: 'var(--color-brand)' }}>읽기 →</span>
+              </div>
             </div>
           </button>
         ))}
