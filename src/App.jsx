@@ -87,39 +87,37 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
       </div>
 
       <div className="md:hidden">
-        <div className="market-status-strip -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-1.5">
-          {timeLabel && (
-            <div className="num flex items-center gap-1.5 text-[12px] whitespace-nowrap">
-              <span className="relative flex h-[7px] w-[7px] shrink-0">
-                <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-              </span>
-              <span className="font-medium" style={{ color: 'var(--color-text)' }}>갱신 {timeLabel}</span>
-            </div>
-          )}
-          <div className="num flex items-center gap-1 text-[12px] whitespace-nowrap">
-            <span style={{ color: 'var(--color-text-dim)' }}>USD</span>
-            <span className="font-semibold" style={{ color: 'var(--color-text)' }}>₩{fx ? fmt(fx.usdKrw) : '...'}</span>
-            {fx && (
-              <span className="text-[11px] font-semibold" style={{ color: fx.usdKrwChange >= 0 ? 'var(--color-up)' : 'var(--color-down)' }}>
-                {fx.usdKrwChange >= 0 ? '+' : ''}{fx.usdKrwChange.toFixed(2)}
-              </span>
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 px-3 py-2">
+          <div className="flex items-center gap-2 min-w-0">
+            {timeLabel && (
+              <div className="num flex items-center gap-1 text-[11px] whitespace-nowrap">
+                <span className="relative flex h-[6px] w-[6px] shrink-0">
+                  <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                  <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                </span>
+                <span className="font-medium" style={{ color: 'var(--color-text)' }}>갱신 {timeLabel}</span>
+              </div>
             )}
+            <div className="num flex items-center gap-1 text-[11px] whitespace-nowrap">
+              <span style={{ color: 'var(--color-text-dim)' }}>USD</span>
+              <span className="font-semibold" style={{ color: 'var(--color-text)' }}>₩{fx ? fmt(fx.usdKrw) : '...'}</span>
+              {fx && (
+                <span className="text-[10px] font-semibold" style={{ color: fx.usdKrwChange >= 0 ? 'var(--color-up)' : 'var(--color-down)' }}>
+                  {fx.usdKrwChange >= 0 ? '+' : ''}{fx.usdKrwChange.toFixed(2)}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-          <div className="justify-self-start">
+          <button type="button" className="text-center cursor-pointer bg-transparent border-none">
+            <h1 className="text-xl font-bold leading-none tracking-tight" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
+          </button>
+          <div className="flex justify-end">
             <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark}>
               <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
               <span className={`theme-toggle-icon ${!isDark ? 'is-active' : ''}`}><Sun size={14} /></span>
               <span className={`theme-toggle-icon ${isDark ? 'is-active' : ''}`}><Moon size={14} /></span>
             </button>
           </div>
-          <button type="button" className="justify-self-center text-center cursor-pointer bg-transparent border-none">
-            <h1 className="text-2xl font-bold leading-none tracking-tight" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
-            <p className="mt-1 text-[10px] font-medium tracking-wide whitespace-nowrap" style={{ color: 'var(--color-text-dim)', opacity: 0.8 }}>국내주식 시세 비교 대시보드</p>
-          </button>
-          <div className="justify-self-end"></div>
         </div>
       </div>
     </header>
