@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
-import { Sun, Moon, Download, RefreshCw, GripVertical, X, Globe } from 'lucide-react'
+import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
 import { posts } from './blogData'
 import { useLang } from './LangContext'
 import './index.css'
@@ -50,7 +50,7 @@ function AnimatedNumber({ value, duration = 800 }) {
 }
 
 function Header({ isDark, setIsDark, fx, lastUpdated }) {
-  const { lang, setLang, t } = useLang()
+  const { t } = useLang()
   const timeLabel = lastUpdated ? new Date(lastUpdated).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : null
 
   return (
@@ -81,10 +81,6 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
               </span>
             )}
           </div>
-          <button onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')} className="pill-surface flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer border-none" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>
-            <Globe size={14} />
-            {lang === 'ko' ? 'EN' : 'KR'}
-          </button>
           <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark}>
             <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
             <span className={`theme-toggle-icon ${!isDark ? 'is-active' : ''}`}><Sun size={14} /></span>
@@ -118,11 +114,7 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
           <Link to="/" className="text-center cursor-pointer bg-transparent border-none no-underline">
             <h1 className="text-xl font-bold leading-none tracking-tight" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
           </Link>
-          <div className="flex justify-end items-center gap-1">
-            <button onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')} className="flex items-center gap-0.5 rounded-full px-2 py-1 text-[11px] font-medium cursor-pointer border-none" style={{ backgroundColor: 'transparent', color: 'var(--color-text)' }}>
-              <Globe size={12} />
-              {lang === 'ko' ? 'EN' : 'KR'}
-            </button>
+          <div className="flex justify-end">
             <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark}>
               <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
               <span className={`theme-toggle-icon ${!isDark ? 'is-active' : ''}`}><Sun size={14} /></span>
@@ -172,7 +164,7 @@ function Navigation() {
 }
 
 function IndicesModal({ indices, onClose }) {
-  const { lang } = useLang()
+  const { t } = useLang()
   if (!indices) return null
   const indexList = Object.values(indices)
 
@@ -180,7 +172,7 @@ function IndicesModal({ indices, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={onClose}>
       <div className="w-full max-w-lg rounded-2xl p-6" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }} onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>{lang === 'ko' ? '시장 지수' : 'Market Indices'}</h2>
+          <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>시장 지수</h2>
           <button onClick={onClose} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>
             <X size={18} />
           </button>
@@ -210,7 +202,7 @@ function IndicesModal({ indices, onClose }) {
 }
 
 function KOSPIIndexCard({ index, onShowIndices }) {
-  const { lang } = useLang()
+  const { t } = useLang()
   if (!index) return null
   const isDown = index.changePct < 0
 
@@ -230,7 +222,7 @@ function KOSPIIndexCard({ index, onShowIndices }) {
           </div>
           <div className="flex shrink-0 items-baseline justify-end gap-2.5 sm:gap-4">
             <div className="num flex items-center gap-1 text-[11px] font-semibold sm:gap-1.5 sm:text-sm" style={{ color: isDown ? 'var(--color-down)' : 'var(--color-up)' }}>
-              <span className="hidden sm:inline" style={{ color: 'var(--color-text-dim)' }}>{lang === 'ko' ? '전일대비' : 'vs prev'}</span>
+              <span className="hidden sm:inline" style={{ color: 'var(--color-text-dim)' }}>전일대비</span>
               <span>{isDown ? '' : '+'}{fmt(Math.round(index.change))}</span>
               <span>{fmtPct(index.changePct)}</span>
             </div>
@@ -307,7 +299,7 @@ function StockCard({ stock }) {
 }
 
 function Dashboard({ data, newsData }) {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [showIndices, setShowIndices] = useState(false)
 
@@ -318,7 +310,7 @@ function Dashboard({ data, newsData }) {
       <section id="dashboard" className="px-4 sm:px-6 py-6">
         <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
           <RefreshCw size={20} className="animate-spin mr-2" />
-          <span>{lang === 'ko' ? '데이터를 불러오는 중...' : 'Loading data...'}</span>
+          <span>데이터를 불러오는 중...</span>
         </div>
       </section>
     )
@@ -345,7 +337,7 @@ function Dashboard({ data, newsData }) {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>{t.news}</h2>
-            <button onClick={() => navigate('/news')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>{lang === 'ko' ? '더보기 →' : 'More →'}</button>
+            <button onClick={() => navigate('/news')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>더보기 →</button>
           </div>
           <div className="divide-y" style={{ borderColor: 'var(--color-border)' }}>
             {allNews.slice(0, 5).map((item, i) => (
@@ -370,7 +362,7 @@ function Dashboard({ data, newsData }) {
 }
 
 function NewsSection({ newsData }) {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const [briefingOpen, setBriefingOpen] = useState(false)
 
   if (!newsData) {
@@ -378,7 +370,7 @@ function NewsSection({ newsData }) {
       <section id="news" className="px-4 sm:px-6 py-6">
         <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
           <RefreshCw size={20} className="animate-spin mr-2" />
-          <span>{lang === 'ko' ? '뉴스를 불러오는 중...' : 'Loading news...'}</span>
+          <span>뉴스를 불러오는 중...</span>
         </div>
       </section>
     )
@@ -393,13 +385,13 @@ function NewsSection({ newsData }) {
         <>
           <div className="card-surface rounded-2xl p-4 sm:p-6 mb-6" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
             <div className="flex items-center gap-2 mb-3">
-              <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>{lang === 'ko' ? '시장 브리핑' : 'Market Briefing'}</span>
+                    <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>시장 브리핑</span>
               <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
             </div>
             <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
             <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'var(--color-text-dim)' }}>{briefing.summary}</p>
             {briefing.detail && (
-              <button onClick={() => setBriefingOpen(true)} className="mt-3 text-xs font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>{lang === 'ko' ? '자세히 보기' : 'View Details'}</button>
+              <button onClick={() => setBriefingOpen(true)} className="mt-3 text-xs font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>자세히 보기</button>
             )}
           </div>
           {briefingOpen && (
@@ -407,7 +399,7 @@ function NewsSection({ newsData }) {
               <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-6" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }} onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>{lang === 'ko' ? '시장 브리핑' : 'Market Briefing'}</span>
+              <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>시장 브리핑</span>
                     <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
                   </div>
                   <button onClick={() => setBriefingOpen(false)} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>
@@ -424,7 +416,7 @@ function NewsSection({ newsData }) {
 
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>{t.news}</h2>
-        <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{lang === 'ko' ? `최신 ${allNews.length}건` : `${allNews.length} latest`}</span>
+        <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>최신 {allNews.length}건</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         {allNews.slice(0, 10).map((item, i) => (
@@ -451,13 +443,13 @@ function NewsSection({ newsData }) {
 }
 
 function ReportsSection({ reportsData }) {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   if (!reportsData) {
     return (
       <section id="reports" className="px-4 sm:px-6 py-6">
         <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
           <RefreshCw size={20} className="animate-spin mr-2" />
-          <span>{lang === 'ko' ? '리포트를 불러오는 중...' : 'Loading reports...'}</span>
+          <span>리포트를 불러오는 중...</span>
         </div>
       </section>
     )
@@ -484,21 +476,21 @@ function ReportsSection({ reportsData }) {
                   <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>{name[0]}</div>
                 )}
                 <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{name}</h3>
-                {opinion && <span className="text-xs ml-auto" style={{ color: 'var(--color-text-muted)' }}>{lang === 'ko' ? '애널리스트' : 'Analysts'} {opinion.total}{lang === 'ko' ? '명' : ''}</span>}
+                {opinion && <span className="text-xs ml-auto" style={{ color: 'var(--color-text-muted)' }}>애널리스트 {opinion.total}명</span>}
               </div>
 
               {consensus && (
                 <div className="grid grid-cols-3 gap-4 mb-4">
                   <div className="text-center">
-                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>{lang === 'ko' ? '평균 목표가' : 'Avg Target'}</p>
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>평균 목표가</p>
                     <p className="text-lg font-bold" style={{ color: 'var(--color-brand)' }}>{fmt(Math.round(consensus.meanKrw))}원</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>{lang === 'ko' ? '최고' : 'High'}</p>
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>최고</p>
                     <p className="text-lg font-bold" style={{ color: 'var(--color-up)' }}>{fmt(consensus.highKrw)}원</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>{lang === 'ko' ? '최저' : 'Low'}</p>
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>최저</p>
                     <p className="text-lg font-bold" style={{ color: 'var(--color-down)' }}>{fmt(consensus.lowKrw)}원</p>
                   </div>
                 </div>
@@ -519,7 +511,7 @@ function ReportsSection({ reportsData }) {
 
               {wisereport && wisereport.length > 0 && (
                 <div className="mb-5">
-                  <p className="text-xs mb-2 font-medium" style={{ color: 'var(--color-text-dim)' }}>{lang === 'ko' ? '영업이익 추이 (조원)' : 'Earnings Trend (T KRW)'}</p>
+                  <p className="text-xs mb-2 font-medium" style={{ color: 'var(--color-text-dim)' }}>영업이익 추이 (조원)</p>
                   <div className="flex items-end gap-2 h-20">
                     {wisereport.map(w => {
                       const val = w.operatingIncomeKrw / 1e12
@@ -565,7 +557,7 @@ function ReportsSection({ reportsData }) {
 }
 
 function BlogSection() {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const [selectedPost, setSelectedPost] = useState(null)
 
   if (selectedPost) {
@@ -663,7 +655,7 @@ function AdSenseBanner({ slot, format, style }) {
 }
 
 function Footer() {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   return (
     <footer className="mt-12 pt-8 border-t text-sm leading-relaxed" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-dim)' }}>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -689,7 +681,7 @@ function Footer() {
 }
 
 function App() {
-  const { lang, setLang, t } = useLang()
+  const { t } = useLang()
   const [isDark, setIsDark] = useState(true)
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
@@ -736,7 +728,7 @@ function App() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <main className="max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} lastUpdated={lastUpdated} lang={lang} setLang={setLang} t={t} />
+        <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} lastUpdated={lastUpdated} />
         <Navigation t={t} />
         <Routes>
           <Route path="/" element={<Dashboard data={priceData} newsData={newsData} t={t} />} />
