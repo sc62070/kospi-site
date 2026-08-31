@@ -353,6 +353,8 @@ function Dashboard({ data, newsData, setActiveTab }) {
         ))}
       </div>
 
+      <AdSenseBanner slot="0000000000" format="fluid" />
+
       {allNews.length > 0 && (
         <div className="mt-8">
           <div className="flex items-center justify-between mb-3">
@@ -621,6 +623,26 @@ function InstallButton() {
   )
 }
 
+function AdSenseBanner({ slot, format, style }) {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({})
+    } catch (e) {}
+  }, [])
+
+  return (
+    <div className="my-6 flex justify-center overflow-hidden" style={style}>
+      <ins className="adsbygoogle"
+        style={{ display: 'block', ...style }}
+        data-ad-client="ca-pub-3187370930413699"
+        data-ad-slot={slot}
+        data-ad-format={format || 'auto'}
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+  )
+}
+
 function Footer({ setActiveTab }) {
   return (
     <footer className="mt-12 pt-8 border-t text-sm leading-relaxed" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-dim)' }}>
@@ -628,6 +650,11 @@ function Footer({ setActiveTab }) {
         <button onClick={() => setActiveTab('dashboard')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>대시보드</button>
         <button onClick={() => setActiveTab('news')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>뉴스</button>
         <button onClick={() => setActiveTab('reports')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>리포트</button>
+      </nav>
+      <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <a href="/about" className="hover:underline" style={{ color: 'var(--color-brand)' }}>사이트 소개</a>
+        <a href="/terms" className="hover:underline" style={{ color: 'var(--color-brand)' }}>이용약관</a>
+        <a href="/privacy" className="hover:underline" style={{ color: 'var(--color-brand)' }}>개인정보처리방침</a>
       </nav>
       <p className="mb-3">문의: contact@kospi.site</p>
       <p>대시보드는 30초마다 갱신, 리포트는 매시간 갱신됩니다.</p>
@@ -687,6 +714,7 @@ function App() {
         {activeTab === 'dashboard' && <Dashboard data={priceData} newsData={newsData} setActiveTab={setActiveTab} />}
         {activeTab === 'news' && <NewsSection newsData={newsData} />}
         {activeTab === 'reports' && <ReportsSection reportsData={reportsData} />}
+        <AdSenseBanner slot="0000000000" format="horizontal" />
         <Footer setActiveTab={setActiveTab} />
       </main>
       <InstallButton />
