@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
 import { posts } from './blogData'
 import './index.css'
@@ -64,10 +65,10 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
             </div>
           )}
         </div>
-        <button type="button" className="justify-self-center text-center cursor-pointer bg-transparent border-none">
+        <Link to="/" className="justify-self-center text-center cursor-pointer bg-transparent border-none no-underline">
           <h1 className="text-2xl lg:text-3xl font-bold leading-none tracking-tight whitespace-nowrap" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
           <p className="mt-1.5 text-[11px] lg:text-xs font-medium tracking-wide whitespace-nowrap" style={{ color: 'var(--color-text-dim)', opacity: 0.8 }}>국내주식 시세 비교 대시보드</p>
-        </button>
+        </Link>
         <div className="justify-self-end flex items-center gap-2 lg:gap-3 text-sm min-w-0">
           <div className="num pill-surface flex items-center gap-2 rounded-full px-3.5 py-1.5 whitespace-nowrap">
             <span style={{ color: 'var(--color-text-dim)' }}>USD/KRW</span>
@@ -108,9 +109,9 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
               )}
             </div>
           </div>
-          <button type="button" className="text-center cursor-pointer bg-transparent border-none">
+          <Link to="/" className="text-center cursor-pointer bg-transparent border-none no-underline">
             <h1 className="text-xl font-bold leading-none tracking-tight" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
-          </button>
+          </Link>
           <div className="flex justify-end">
             <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark}>
               <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
@@ -124,12 +125,14 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
   )
 }
 
-function Navigation({ activeTab, setActiveTab }) {
+function Navigation() {
+  const location = useLocation()
+  const path = location.pathname === '/' ? 'dashboard' : location.pathname.slice(1)
   const tabs = [
-    { id: 'dashboard', label: '대시보드' },
-    { id: 'news', label: '뉴스' },
-    { id: 'reports', label: '리포트' },
-    { id: 'blog', label: '블로그' },
+    { id: 'dashboard', label: '대시보드', to: '/' },
+    { id: 'news', label: '뉴스', to: '/news' },
+    { id: 'reports', label: '리포트', to: '/reports' },
+    { id: 'blog', label: '블로그', to: '/blog' },
   ]
 
   return (
@@ -137,10 +140,10 @@ function Navigation({ activeTab, setActiveTab }) {
       <ul className="flex gap-4 sm:gap-10 min-w-max" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {tabs.map(tab => (
           <li key={tab.id}>
-            <button onClick={() => setActiveTab(tab.id)} className="relative py-3 sm:py-4 text-[17px] sm:text-lg tracking-tight whitespace-nowrap transition-colors duration-200 border-none bg-transparent cursor-pointer" style={{ color: activeTab === tab.id ? 'var(--color-text)' : 'var(--color-text-dim)', fontWeight: activeTab === tab.id ? 600 : 500 }}>
+            <Link to={tab.to} className="relative py-3 sm:py-4 text-[17px] sm:text-lg tracking-tight whitespace-nowrap transition-colors duration-200 no-underline" style={{ color: path === tab.id ? 'var(--color-text)' : 'var(--color-text-dim)', fontWeight: path === tab.id ? 600 : 500 }}>
               {tab.label}
-              <span className="absolute -bottom-px left-0 right-0 h-[2.5px] sm:h-[3px] rounded-full transition-opacity duration-200" style={{ backgroundColor: 'var(--color-brand)', opacity: activeTab === tab.id ? 1 : 0 }}></span>
-            </button>
+              <span className="absolute -bottom-px left-0 right-0 h-[2.5px] sm:h-[3px] rounded-full transition-opacity duration-200" style={{ backgroundColor: 'var(--color-brand)', opacity: path === tab.id ? 1 : 0 }}></span>
+            </Link>
           </li>
         ))}
       </ul>
@@ -281,7 +284,8 @@ function StockCard({ stock }) {
   )
 }
 
-function Dashboard({ data, newsData, setActiveTab }) {
+function Dashboard({ data, newsData }) {
+  const navigate = useNavigate()
   const [showIndices, setShowIndices] = useState(false)
 
   const allNews = newsData?.data?.[0]?.items || []
@@ -318,7 +322,7 @@ function Dashboard({ data, newsData, setActiveTab }) {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>뉴스</h2>
-            <button onClick={() => setActiveTab('news')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>더보기 →</button>
+            <button onClick={() => navigate('/news')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>더보기 →</button>
           </div>
           <div className="divide-y" style={{ borderColor: 'var(--color-border)' }}>
             {allNews.slice(0, 5).map((item, i) => (
@@ -631,14 +635,14 @@ function AdSenseBanner({ slot, format, style }) {
   )
 }
 
-function Footer({ setActiveTab }) {
+function Footer() {
   return (
     <footer className="mt-12 pt-8 border-t text-sm leading-relaxed" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-dim)' }}>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
-        <button onClick={() => setActiveTab('dashboard')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>대시보드</button>
-        <button onClick={() => setActiveTab('news')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>뉴스</button>
-        <button onClick={() => setActiveTab('reports')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>리포트</button>
-        <button onClick={() => setActiveTab('blog')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>블로그</button>
+        <Link to="/" className="hover:underline" style={{ color: 'var(--color-brand)' }}>대시보드</Link>
+        <Link to="/news" className="hover:underline" style={{ color: 'var(--color-brand)' }}>뉴스</Link>
+        <Link to="/reports" className="hover:underline" style={{ color: 'var(--color-brand)' }}>리포트</Link>
+        <Link to="/blog" className="hover:underline" style={{ color: 'var(--color-brand)' }}>블로그</Link>
       </nav>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
         <a href="/about" className="hover:underline" style={{ color: 'var(--color-brand)' }}>사이트 소개</a>
@@ -658,7 +662,6 @@ function Footer({ setActiveTab }) {
 
 function App() {
   const [isDark, setIsDark] = useState(true)
-  const [activeTab, setActiveTab] = useState('dashboard')
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
   const [reportsData, setReportsData] = useState(null)
@@ -705,13 +708,15 @@ function App() {
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <main className="max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} lastUpdated={lastUpdated} />
-        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
-        {activeTab === 'dashboard' && <Dashboard data={priceData} newsData={newsData} setActiveTab={setActiveTab} />}
-        {activeTab === 'news' && <NewsSection newsData={newsData} />}
-        {activeTab === 'reports' && <ReportsSection reportsData={reportsData} />}
-        {activeTab === 'blog' && <BlogSection />}
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Dashboard data={priceData} newsData={newsData} />} />
+          <Route path="/news" element={<NewsSection newsData={newsData} />} />
+          <Route path="/reports" element={<ReportsSection reportsData={reportsData} />} />
+          <Route path="/blog" element={<BlogSection />} />
+        </Routes>
         <AdSenseBanner slot="0000000000" format="horizontal" />
-        <Footer setActiveTab={setActiveTab} />
+        <Footer />
       </main>
       <InstallButton />
     </div>

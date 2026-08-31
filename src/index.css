@@ -173,6 +173,10 @@ body {
 }
 
 /* Blog content styles */
+.no-underline {
+  text-decoration: none;
+}
+
 .blog-content img.blog-img,
 .blog-content img {
   width: 100%;
