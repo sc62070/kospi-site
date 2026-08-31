@@ -82,7 +82,7 @@ function Header({ isDark, setIsDark, fx }) {
                 <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
               )}
             </span>
-            <span className="font-medium" style={{ color: marketOpen ? 'var(--color-regular)' : 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
+            <span className="font-medium" style={{ color: 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
           </div>
         </div>
         <button type="button" className="justify-self-center text-center cursor-pointer bg-transparent border-none">
@@ -127,7 +127,7 @@ function Header({ isDark, setIsDark, fx }) {
                 <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
               )}
             </span>
-            <span className="font-medium" style={{ color: marketOpen ? 'var(--color-regular)' : 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
+            <span className="font-medium" style={{ color: 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
           </div>
           <div className="num flex items-center gap-1 text-[12px] whitespace-nowrap">
             <span style={{ color: 'var(--color-text-dim)' }}>USD</span>
@@ -221,6 +221,7 @@ function IndicesModal({ indices, onClose }) {
 function KOSPIIndexCard({ index, onShowIndices }) {
   if (!index) return null
   const isDown = index.changePct < 0
+  const marketOpen = isKoreanMarketOpen()
 
   return (
     <button type="button" onClick={onShowIndices} className="w-full text-left block group cursor-pointer rounded-2xl border-none bg-transparent p-0 focus:outline-none focus-visible:ring-2 transition-shadow" style={{ '--tw-ring-color': 'var(--color-regular)' }}>
@@ -238,7 +239,7 @@ function KOSPIIndexCard({ index, onShowIndices }) {
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-50" style={{ backgroundColor: 'var(--color-regular)' }}></span>
                     <span className="relative inline-flex h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
                   </span>
-                  마감
+                  {marketOpen ? '장중' : '마감'}
                 </span>
               </div>
             </div>
