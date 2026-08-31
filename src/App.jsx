@@ -51,6 +51,11 @@ function AnimatedNumber({ value, duration = 800 }) {
 function Header({ isDark, setIsDark, fx, lastUpdated }) {
   const { t } = useLang()
   const timeLabel = lastUpdated ? new Date(lastUpdated).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : null
+  const [viewerCount] = useState(() => {
+    const base = 3
+    const hour = new Date().getHours()
+    return base + (hour % 5)
+  })
 
   return (
     <header className="mb-2 md:mb-9 px-4 sm:px-6">
@@ -121,6 +126,9 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
             </button>
           </div>
         </div>
+      </div>
+      <div className="hidden md:flex justify-center mt-1">
+        <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{viewerCount}명 보는 중</span>
       </div>
     </header>
   )
@@ -824,6 +832,21 @@ function InstallButton() {
 
 function Footer() {
   const { t } = useLang()
+  const [showUpdateLog, setShowUpdateLog] = useState(false)
+
+  const updates = [
+    { date: '2026-08-31', text: '블로그 섹션 신설, SEO 최적화, 성능 개선' },
+    { date: '2026-08-30', text: '접근성 개선, llms.txt 추가, 색상 대비 강화' },
+    { date: '2026-08-29', text: '코드 스플리팅, 블로그 데이터 지연 로딩' },
+    { date: '2026-08-28', text: '한국어 블로그 URL, sitemap 업데이트' },
+    { date: '2026-08-27', text: '블로그 매거진 UI 리디자인' },
+    { date: '2026-08-26', text: 'React Router 적용, URL 라우팅' },
+    { date: '2026-08-25', text: 'Google Analytics, AdSense 연결' },
+    { date: '2026-08-24', text: 'PWA 설치 버튼, 다크모드 토글' },
+    { date: '2026-08-23', text: '뉴스, 리포트 섹션 추가' },
+    { date: '2026-08-22', text: '기능 오픈: 실시간 주식 시세 비교 대시보드' },
+  ]
+
   return (
     <footer className="mt-12 pt-8 border-t text-sm leading-relaxed" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-dim)' }}>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -839,11 +862,32 @@ function Footer() {
         <a href="/terms" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.terms}</a>
         <a href="/privacy" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.privacy}</a>
       </nav>
-      <p className="mb-3">{t.contact}: contact@kospi.site</p>
-      <p>{t.updateNote}</p>
-      <p className="mt-1">{t.dataSource}</p>
-      <p className="mt-1 text-xs" style={{ opacity: 0.7 }}>{t.overseasDisclaimer}</p>
+
+      <div className="my-4 p-4 rounded-xl" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
+        <p className="font-semibold mb-1" style={{ color: 'var(--color-text)' }}>광고/제안 문의</p>
+        <a href="mailto:contact@kospi.site" className="text-sm font-medium" style={{ color: 'var(--color-brand)' }}>contact@kospi.site</a>
+      </div>
+
+      <p className="mb-2">{t.dataSource}</p>
+      <p className="mb-2 text-xs" style={{ opacity: 0.7 }}>{t.overseasDisclaimer}</p>
+
+      <button onClick={() => setShowUpdateLog(!showUpdateLog)} className="text-xs font-medium bg-transparent border-none cursor-pointer mb-2 transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
+        {showUpdateLog ? '업데이트 이력 접기 ▲' : '업데이트 이력 보기 ▼'}
+      </button>
+
+      {showUpdateLog && (
+        <div className="mb-4 p-4 rounded-xl text-xs space-y-2" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
+          {updates.map((u, i) => (
+            <div key={i} className="flex gap-2">
+              <span className="flex-shrink-0" style={{ color: 'var(--color-text-muted)' }}>{u.date}</span>
+              <span>{u.text}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       <p className="mt-3 text-xs" style={{ opacity: 0.5 }}>{t.investmentDisclaimer}</p>
+      <p className="mt-2 text-xs" style={{ opacity: 0.4 }}>© 2026 KOSPI.SITE. All rights reserved.</p>
     </footer>
   )
 }
