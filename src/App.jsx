@@ -436,29 +436,10 @@ function ReportsSection({ reportsData }) {
 
   const tickerToSlug = { '005930': 'samsung', '000660': 'skhynix', '005380': 'hyundai' }
 
-  const opinionLabel = (op) => {
-    if (op === 'StrongBuy' || op === 'strongBuy') return '강력매수'
-    if (op === 'Buy' || op === '매수') return '매수'
-    if (op === 'Hold' || op === 'hold') return '보유'
-    if (op === 'Sell' || op === '매도') return '매도'
-    if (op === 'StrongSell' || op === 'strongSell') return '강력매도'
-    return op
-  }
-
-  const opinionColor = (op) => {
-    const o = op?.toLowerCase()
-    if (o === 'strongbuy' || o === '매수') return { bg: 'rgba(34,197,94,0.15)', text: '#22c55e' }
-    if (o === 'buy') return { bg: 'rgba(134,239,172,0.15)', text: '#86efac' }
-    if (o === 'hold') return { bg: 'rgba(251,191,36,0.15)', text: '#fbbf24' }
-    if (o === 'sell' || o === '매도') return { bg: 'rgba(252,165,165,0.15)', text: '#fca5a5' }
-    if (o === 'strongsell') return { bg: 'rgba(239,68,68,0.15)', text: '#ef4444' }
-    return { bg: 'var(--color-pill)', text: 'var(--color-text-dim)' }
-  }
-
   return (
     <section id="reports" className="px-4 sm:px-6 py-6">
       <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>증권사 리포트</h2>
-      <div className="space-y-6">
+      <div className="space-y-8">
         {reportsData.data.map(stock => {
           const { toss, brokerForecasts, wisereport, name, ticker } = stock
           const consensus = toss?.consensus
@@ -466,88 +447,60 @@ function ReportsSection({ reportsData }) {
           const logoSrc = LOGOS[tickerToSlug[ticker]]
 
           return (
-            <div key={ticker} className="card-surface rounded-2xl overflow-hidden" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
-              <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-3 border-b" style={{ borderColor: 'var(--color-border)' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {logoSrc ? (
-                      <img src={logoSrc} alt={name} className="w-10 h-10 rounded-full object-cover ring-1" style={{ borderColor: 'var(--color-border)' }} />
-                    ) : (
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold ring-1" style={{ backgroundColor: 'var(--color-pill)', borderColor: 'var(--color-border)', color: 'var(--color-text)' }}>{name[0]}</div>
-                    )}
-                    <div>
-                      <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{name}</h3>
-                      <p className="text-xs" style={{ color: 'var(--color-text-dim)' }}>{ticker}</p>
-                    </div>
-                  </div>
-                  {opinion && (
-                    <div className="text-right">
-                      <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>애널리스트 <span className="font-semibold" style={{ color: 'var(--color-text)' }}>{opinion.total}</span>명</p>
-                      <p className="text-[11px] mt-0.5" style={{ color: 'var(--color-text-dim)' }}>{opinion.description}</p>
-                    </div>
-                  )}
-                </div>
+            <div key={ticker}>
+              <div className="flex items-center gap-3 mb-4">
+                {logoSrc ? (
+                  <img src={logoSrc} alt={name} className="w-8 h-8 rounded-full object-cover" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>{name[0]}</div>
+                )}
+                <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{name}</h3>
+                {opinion && <span className="text-xs ml-auto" style={{ color: 'var(--color-text-muted)' }}>애널리스트 {opinion.total}명</span>}
               </div>
 
               {consensus && (
-                <div className="px-4 sm:px-6 py-4">
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
-                      <p className="text-[11px] mb-1 font-medium" style={{ color: 'var(--color-text-muted)' }}>평균 목표가</p>
-                      <p className="text-xl font-bold" style={{ color: 'var(--color-brand)' }}>{fmt(Math.round(consensus.meanKrw))}</p>
-                      <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>원</p>
-                    </div>
-                    <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
-                      <p className="text-[11px] mb-1 font-medium" style={{ color: 'var(--color-text-muted)' }}>최고 목표가</p>
-                      <p className="text-xl font-bold" style={{ color: 'var(--color-up)' }}>{fmt(consensus.highKrw)}</p>
-                      <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>원</p>
-                    </div>
-                    <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
-                      <p className="text-[11px] mb-1 font-medium" style={{ color: 'var(--color-text-muted)' }}>최저 목표가</p>
-                      <p className="text-xl font-bold" style={{ color: 'var(--color-down)' }}>{fmt(consensus.lowKrw)}</p>
-                      <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>원</p>
-                    </div>
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="text-center">
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>평균 목표가</p>
+                    <p className="text-lg font-bold" style={{ color: 'var(--color-brand)' }}>{fmt(Math.round(consensus.meanKrw))}원</p>
                   </div>
-                  {consensus.pointDate && (
-                    <p className="text-[10px] mt-2 text-right" style={{ color: 'var(--color-text-muted)' }}>기준일: {consensus.pointDate}</p>
-                  )}
+                  <div className="text-center">
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>최고</p>
+                    <p className="text-lg font-bold" style={{ color: 'var(--color-up)' }}>{fmt(consensus.highKrw)}원</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>최저</p>
+                    <p className="text-lg font-bold" style={{ color: 'var(--color-down)' }}>{fmt(consensus.lowKrw)}원</p>
+                  </div>
                 </div>
               )}
 
               {opinion && (
-                <div className="px-4 sm:px-6 pb-4">
-                  <p className="text-[11px] font-semibold mb-2" style={{ color: 'var(--color-text-dim)' }}>의견 분포</p>
-                  <div className="flex gap-1 h-2.5 rounded-full overflow-hidden">
+                <div className="mb-4">
+                  <div className="flex gap-0.5 h-2 rounded-full overflow-hidden">
                     {opinion.strongBuy > 0 && <div style={{ flex: opinion.strongBuy, backgroundColor: '#16a34a' }}></div>}
                     {opinion.buy > 0 && <div style={{ flex: opinion.buy, backgroundColor: '#22c55e' }}></div>}
                     {opinion.hold > 0 && <div style={{ flex: opinion.hold, backgroundColor: '#eab308' }}></div>}
                     {opinion.sell > 0 && <div style={{ flex: opinion.sell, backgroundColor: '#f87171' }}></div>}
                     {opinion.strongSell > 0 && <div style={{ flex: opinion.strongSell, backgroundColor: '#dc2626' }}></div>}
                   </div>
-                  <div className="flex items-center gap-3 mt-2 flex-wrap text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
-                    {opinion.strongBuy > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#16a34a' }}></span>강력매수 {opinion.strongBuy}</span>}
-                    {opinion.buy > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#22c55e' }}></span>매수 {opinion.buy}</span>}
-                    {opinion.hold > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#eab308' }}></span>보유 {opinion.hold}</span>}
-                    {opinion.sell > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#f87171' }}></span>매도 {opinion.sell}</span>}
-                    {opinion.strongSell > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#dc2626' }}></span>강력매도 {opinion.strongSell}</span>}
-                  </div>
+                  <p className="text-[11px] mt-1.5" style={{ color: 'var(--color-text-muted)' }}>{opinion.description}</p>
                 </div>
               )}
 
               {wisereport && wisereport.length > 0 && (
-                <div className="px-4 sm:px-6 pb-4">
-                  <p className="text-[11px] font-semibold mb-3" style={{ color: 'var(--color-text-dim)' }}>영업이익 추이 (조원)</p>
-                  <div className="flex items-end gap-1.5 h-24">
+                <div className="mb-5">
+                  <p className="text-xs mb-2 font-medium" style={{ color: 'var(--color-text-dim)' }}>영업이익 추이 (조원)</p>
+                  <div className="flex items-end gap-2 h-20">
                     {wisereport.map(w => {
                       const val = w.operatingIncomeKrw / 1e12
                       const maxAbs = Math.max(...wisereport.map(x => Math.abs(x.operatingIncomeKrw / 1e12)), 1)
                       const height = Math.max((Math.abs(val) / maxAbs) * 100, 4)
-                      const isNeg = val < 0
                       return (
                         <div key={w.year} className="flex-1 flex flex-col items-center justify-end h-full">
-                          <span className="text-[9px] mb-0.5 font-medium" style={{ color: isNeg ? 'var(--color-down)' : 'var(--color-text-dim)' }}>{Math.abs(val).toFixed(1)}</span>
-                          <div className="w-full rounded-t" style={{ height: `${height}%`, backgroundColor: w.status === 'estimate' ? 'var(--color-brand)' : isNeg ? 'var(--color-down)' : 'var(--color-up)', opacity: w.status === 'estimate' ? 0.5 : 0.8, borderTop: w.status === 'estimate' ? '1.5px dashed var(--color-brand)' : 'none' }}></div>
-                          <p className="text-[9px] mt-1 font-medium" style={{ color: 'var(--color-text-muted)' }}>{w.year}</p>
+                          <span className="text-[10px] mb-0.5" style={{ color: val < 0 ? 'var(--color-down)' : 'var(--color-text-dim)' }}>{val < 0 ? '-' : ''}{Math.abs(val).toFixed(1)}</span>
+                          <div className="w-full rounded-t" style={{ height: `${height}%`, backgroundColor: w.status === 'estimate' ? 'var(--color-brand)' : val >= 0 ? 'var(--color-up)' : 'var(--color-down)', opacity: w.status === 'estimate' ? 0.5 : 0.8 }}></div>
+                          <p className="text-[10px] mt-1" style={{ color: 'var(--color-text-muted)' }}>{w.year}</p>
                         </div>
                       )
                     })}
@@ -556,28 +509,21 @@ function ReportsSection({ reportsData }) {
               )}
 
               {brokerForecasts && brokerForecasts.length > 0 && (
-                <div className="px-4 sm:px-6 pb-4 sm:pb-5">
-                  <p className="text-[11px] font-semibold mb-2" style={{ color: 'var(--color-text-dim)' }}>최근 리포트</p>
-                  <div className="divide-y rounded-xl overflow-hidden" style={{ borderColor: 'var(--color-border)' }}>
-                    {brokerForecasts.slice(0, 8).map((f, i) => {
-                      const colors = opinionColor(f.opinion)
-                      return (
-                        <a key={f.nid || i} href={f.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-3 py-2.5 transition-opacity hover:opacity-70 no-underline" style={{ backgroundColor: 'var(--color-pill)' }}>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-[13px] font-medium truncate" style={{ color: 'var(--color-text)' }}>{f.title}</p>
-                            <div className="flex items-center gap-2 text-[11px] mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
-                              <span>{f.broker}</span>
-                              <span>·</span>
-                              <span>{f.publishedAt}</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 flex-shrink-0">
-                            {f.targetPriceKrw && <span className="text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>{fmt(f.targetPriceKrw)}원</span>}
-                            <span className="text-[10px] px-1.5 py-0.5 rounded font-medium" style={{ backgroundColor: colors.bg, color: colors.text }}>{opinionLabel(f.opinion)}</span>
-                          </div>
-                        </a>
-                      )
-                    })}
+                <div>
+                  <p className="text-xs mb-2 font-medium" style={{ color: 'var(--color-text-dim)' }}>최근 리포트</p>
+                  <div className="border-t" style={{ borderColor: 'var(--color-border)' }}>
+                    {brokerForecasts.slice(0, 8).map((f, i) => (
+                      <a key={f.nid || i} href={f.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 py-2.5 border-b transition-opacity hover:opacity-70 no-underline" style={{ borderColor: 'var(--color-border)' }}>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm truncate" style={{ color: 'var(--color-text)' }}>{f.title}</p>
+                          <p className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{f.broker} · {f.publishedAt}</p>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {f.targetPriceKrw && <span className="text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>{fmt(f.targetPriceKrw)}원</span>}
+                          <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>{f.opinion}</span>
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 </div>
               )}
