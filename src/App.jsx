@@ -73,9 +73,16 @@ function Header({ isDark, setIsDark, fx }) {
           </div>
           <div className="num flex flex-auto md:flex-none items-center justify-center gap-1 md:gap-2 pill-surface rounded-full px-2 md:px-3.5 py-1 md:py-1.5 text-[13px] md:text-sm">
             <span className="relative flex h-[7px] w-[7px] md:h-2 md:w-2 shrink-0">
-              <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
+              {marketOpen ? (
+                <>
+                  <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                  <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                </>
+              ) : (
+                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
+              )}
             </span>
-            <span className="font-medium" style={{ color: 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
+            <span className="font-medium" style={{ color: marketOpen ? 'var(--color-regular)' : 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
           </div>
         </div>
         <button type="button" className="justify-self-center text-center cursor-pointer bg-transparent border-none">
@@ -111,9 +118,16 @@ function Header({ isDark, setIsDark, fx }) {
           </div>
           <div className="num flex items-center gap-1.5 text-[12px] whitespace-nowrap">
             <span className="relative flex h-[7px] w-[7px] shrink-0">
-              <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
+              {marketOpen ? (
+                <>
+                  <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                  <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                </>
+              ) : (
+                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
+              )}
             </span>
-            <span className="font-medium" style={{ color: 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
+            <span className="font-medium" style={{ color: marketOpen ? 'var(--color-regular)' : 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
           </div>
           <div className="num flex items-center gap-1 text-[12px] whitespace-nowrap">
             <span style={{ color: 'var(--color-text-dim)' }}>USD</span>
