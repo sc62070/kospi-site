@@ -17,17 +17,6 @@ const fmtPct = (n) => {
 }
 const fmtUsd = (n) => '$' + new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
 
-function isKoreanMarketOpen() {
-  const now = new Date()
-  const kst = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
-  const day = kst.getDay()
-  if (day === 0 || day === 6) return false
-  const h = kst.getHours()
-  const m = kst.getMinutes()
-  const time = h * 60 + m
-  return time >= 540 && time <= 630
-}
-
 function AnimatedNumber({ value, duration = 800 }) {
   const [display, setDisplay] = useState(value)
   const prevRef = useRef(value)
@@ -57,33 +46,22 @@ function AnimatedNumber({ value, duration = 800 }) {
   return fmt(display)
 }
 
-function Header({ isDark, setIsDark, fx }) {
-  const marketOpen = isKoreanMarketOpen()
+function Header({ isDark, setIsDark, fx, lastUpdated }) {
+  const timeLabel = lastUpdated ? new Date(lastUpdated).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : null
 
   return (
     <header className="mb-2 md:mb-9 px-4 sm:px-6">
       <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-4">
         <div className="justify-self-start min-w-0 flex items-center gap-2">
-          <div className="num flex flex-auto md:flex-none items-center justify-center gap-1 md:gap-2 pill-surface rounded-full px-2 md:px-3.5 py-1 md:py-1.5 text-[13px] md:text-sm">
-            <span className="relative flex h-[7px] w-[7px] md:h-2 md:w-2 shrink-0">
-              <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-              <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-            </span>
-            <span className="font-medium" style={{ color: 'var(--color-text)' }}>해외 실시간</span>
-          </div>
-          <div className="num flex flex-auto md:flex-none items-center justify-center gap-1 md:gap-2 pill-surface rounded-full px-2 md:px-3.5 py-1 md:py-1.5 text-[13px] md:text-sm">
-            <span className="relative flex h-[7px] w-[7px] md:h-2 md:w-2 shrink-0">
-              {marketOpen ? (
-                <>
-                  <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                  <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                </>
-              ) : (
-                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
-              )}
-            </span>
-            <span className="font-medium" style={{ color: 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
-          </div>
+          {timeLabel && (
+            <div className="num flex flex-auto md:flex-none items-center justify-center gap-1 md:gap-2 pill-surface rounded-full px-2 md:px-3.5 py-1 md:py-1.5 text-[13px] md:text-sm">
+              <span className="relative flex h-[7px] w-[7px] md:h-2 md:w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+              </span>
+              <span className="font-medium" style={{ color: 'var(--color-text)' }}>갱신 {timeLabel}</span>
+            </div>
+          )}
         </div>
         <button type="button" className="justify-self-center text-center cursor-pointer bg-transparent border-none">
           <h1 className="text-2xl lg:text-3xl font-bold leading-none tracking-tight whitespace-nowrap" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
@@ -109,26 +87,15 @@ function Header({ isDark, setIsDark, fx }) {
 
       <div className="md:hidden">
         <div className="market-status-strip -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-1.5">
-          <div className="num flex items-center gap-1.5 text-[12px] whitespace-nowrap">
-            <span className="relative flex h-[7px] w-[7px] shrink-0">
-              <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-              <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-            </span>
-            <span className="font-medium" style={{ color: 'var(--color-text)' }}>해외 실시간</span>
-          </div>
-          <div className="num flex items-center gap-1.5 text-[12px] whitespace-nowrap">
-            <span className="relative flex h-[7px] w-[7px] shrink-0">
-              {marketOpen ? (
-                <>
-                  <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                  <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                </>
-              ) : (
-                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
-              )}
-            </span>
-            <span className="font-medium" style={{ color: 'var(--color-text)' }}>{marketOpen ? '국내장개장' : '국내장마감'}</span>
-          </div>
+          {timeLabel && (
+            <div className="num flex items-center gap-1.5 text-[12px] whitespace-nowrap">
+              <span className="relative flex h-[7px] w-[7px] shrink-0">
+                <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+                <span className="relative inline-flex h-full w-full rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
+              </span>
+              <span className="font-medium" style={{ color: 'var(--color-text)' }}>갱신 {timeLabel}</span>
+            </div>
+          )}
           <div className="num flex items-center gap-1 text-[12px] whitespace-nowrap">
             <span style={{ color: 'var(--color-text-dim)' }}>USD</span>
             <span className="font-semibold" style={{ color: 'var(--color-text)' }}>₩{fx ? fmt(fx.usdKrw) : '...'}</span>
@@ -221,7 +188,6 @@ function IndicesModal({ indices, onClose }) {
 function KOSPIIndexCard({ index, onShowIndices }) {
   if (!index) return null
   const isDown = index.changePct < 0
-  const marketOpen = isKoreanMarketOpen()
 
   return (
     <button type="button" onClick={onShowIndices} className="w-full text-left block group cursor-pointer rounded-2xl border-none bg-transparent p-0 focus:outline-none focus-visible:ring-2 transition-shadow" style={{ '--tw-ring-color': 'var(--color-regular)' }}>
@@ -234,13 +200,6 @@ function KOSPIIndexCard({ index, onShowIndices }) {
             <div className="min-w-0">
               <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                 <h2 className="truncate text-lg font-bold leading-none tracking-tight sm:text-2xl" style={{ color: 'var(--color-text)' }}>KOSPI</h2>
-                <span className="inline-flex shrink-0 items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold sm:gap-1.5 sm:px-2 sm:text-xs" style={{ border: '1px solid', borderColor: 'var(--color-regular)', backgroundColor: 'rgba(63,185,80,0.1)', color: 'var(--color-regular)' }}>
-                  <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-50" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                    <span className="relative inline-flex h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full" style={{ backgroundColor: 'var(--color-regular)' }}></span>
-                  </span>
-                  {marketOpen ? '장중' : '마감'}
-                </span>
               </div>
             </div>
           </div>
@@ -671,12 +630,16 @@ function App() {
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
   const [reportsData, setReportsData] = useState(null)
+  const [lastUpdated, setLastUpdated] = useState(null)
 
   const fetchPrices = useCallback(async () => {
     try {
       const res = await fetch('/api/prices')
       const json = await res.json()
-      if (json.ok) setPriceData(json)
+      if (json.ok) {
+        setPriceData(json)
+        setLastUpdated(Date.now())
+      }
     } catch (e) { console.error('Failed to fetch prices:', e) }
   }, [])
 
@@ -709,7 +672,7 @@ function App() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <main className="max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} />
+        <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} lastUpdated={lastUpdated} />
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab === 'dashboard' && <Dashboard data={priceData} newsData={newsData} setActiveTab={setActiveTab} />}
         {activeTab === 'news' && <NewsSection newsData={newsData} />}
