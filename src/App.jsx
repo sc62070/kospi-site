@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
 import { posts } from './blogData'
 import { useLang } from './LangContext'
