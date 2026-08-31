@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0E1117"/>
+      <stop offset="100%" style="stop-color:#1A1F2E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="200" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="#FFFFFF">KOSPI.SITE</text>
+  <text x="600" y="270" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#8B949E">국내주식 시세 비교 대시보드</text>
+  <rect x="150" y="340" width="280" height="120" rx="16" fill="#161B22" stroke="#30363D" stroke-width="1"/>
+  <text x="290" y="385" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#8B949E">삼성전자</text>
+  <text x="290" y="425" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="bold" fill="#3FB950">실시간 추정가</text>
+  <rect x="460" y="340" width="280" height="120" rx="16" fill="#161B22" stroke="#30363D" stroke-width="1"/>
+  <text x="600" y="385" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#8B949E">SK하이닉스</text>
+  <text x="600" y="425" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="bold" fill="#3FB950">실시간 추정가</text>
+  <rect x="770" y="340" width="280" height="120" rx="16" fill="#161B22" stroke="#30363D" stroke-width="1"/>
+  <text x="910" y="385" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#8B949E">현대차</text>
+  <text x="910" y="425" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="bold" fill="#3FB950">실시간 추정가</text>
+  <text x="600" y="560" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#484F58">해외 실시간 추정가 · 전일 종가 · 시가총액 비교</text>
+</svg>
