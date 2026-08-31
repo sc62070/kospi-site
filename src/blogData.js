@@ -1,6 +1,6 @@
 export const posts = [
   {
-    slug: 'kospi-6000-investment-guide',
+    slug: '코스피-6000-시대-지금-들어가도-늦지-않았나요',
     title: '코스피 6000 시대, 지금 들어가도 늦지 않았나요?',
     date: '2026-08-31',
     category: '시장 전망',
@@ -101,7 +101,7 @@ export const posts = [
     `
   },
   {
-    slug: 'etf-beginner-complete-guide',
+    slug: '초보자-ETF-완전-가이드',
     title: '초보자 ETF 완전 가이드: 첫 매수부터 포트폴리오까지',
     date: '2026-08-30',
     category: '투자 가이드',
@@ -202,7 +202,7 @@ export const posts = [
     `
   },
   {
-    slug: 'samsung-vs-sk-hynix-2026',
+    slug: '삼성전자-vs-SK하이닉스-2026년-반도체-투자-분석',
     title: '삼성전자 vs SK하이닉스: 2026년 반도체 투자 분석',
     date: '2026-08-29',
     category: '종목 분석',
@@ -290,7 +290,7 @@ export const posts = [
     `
   },
   {
-    slug: 'monthly-dividend-etf-guide',
+    slug: '월배당-ETF로-월-50만원-받으려면-얼마가-필요할까',
     title: '월배당 ETF로 월 50만원 받으려면 얼마가 필요할까?',
     date: '2026-08-28',
     category: '투자 가이드',
@@ -368,7 +368,7 @@ export const posts = [
     `
   },
   {
-    slug: 'stock-investment-tax-guide',
+    slug: '주식-투자-세금-완전-정복',
     title: '주식 투자 세금 완전 정복: 양도소득세, 배당소득세, 절세 계좌',
     date: '2026-08-27',
     category: '투자 가이드',
@@ -471,7 +471,7 @@ export const posts = [
     `
   },
   {
-    slug: 'account-opening-guide-2026',
+    slug: '주식-계좌-개설-완전-가이드-2026년',
     title: '주식 계좌 개설 완전 가이드: 2026년版',
     date: '2026-08-26',
     category: '투자 가이드',
@@ -554,7 +554,7 @@ export const posts = [
     `
   },
   {
-    slug: 'six-risks-in-bull-market',
+    slug: '코스피-6000-시대-초보자가-알아야-할-6가지-리스크',
     title: '코스피 6000 시대, 초보자가 알아야 할 6가지 리스크',
     date: '2026-08-25',
     category: '시장 이해',
@@ -626,7 +626,7 @@ export const posts = [
     `
   },
   {
-    slug: 'dividend-stock-investment-guide',
+    slug: '배당주-투자-가이드',
     title: '배당주 투자 가이드: 고배당주 vs 밸류업 수혜주',
     date: '2026-08-24',
     category: '투자 가이드',
@@ -698,7 +698,7 @@ export const posts = [
     `
   },
   {
-    slug: 'semiconductor-ai-investment-2026',
+    slug: '반도체-AI-투자-전략-HBM4-시대의-기회와-리스크',
     title: '반도체·AI 투자 전략: HBM4 시대의 기회와 리스크',
     date: '2026-08-23',
     category: '시장 전망',
@@ -774,7 +774,7 @@ export const posts = [
     `
   },
   {
-    slug: 'investment-psychology-fomo',
+    slug: '주식-투자-심리-관리-FOMO를-이기는-7원칙',
     title: '주식 투자 심리 관리: FOMO를 이기는 7원칙',
     date: '2026-08-22',
     category: '투자 가이드',
@@ -841,7 +841,7 @@ export const posts = [
     `
   },
   {
-    slug: 'etf-portfolio-by-investor-type',
+    slug: '투자-성향별-ETF-포트폴리오',
     title: '투자 성향별 ETF 포트폴리오: 안정형부터 공격형까지',
     date: '2026-08-21',
     category: '투자 가이드',
