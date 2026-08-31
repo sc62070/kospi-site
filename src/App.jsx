@@ -78,6 +78,7 @@ function Navigation({ activeTab, setActiveTab }) {
   const tabs = [
     { id: 'dashboard', label: '대시보드' },
     { id: 'news', label: '뉴스' },
+    { id: 'reports', label: '리포트' },
   ]
 
   return (
@@ -331,15 +332,192 @@ function NewsSection({ newsData }) {
   )
 }
 
-function Footer() {
+function ReportsSection({ reportsData }) {
+  if (!reportsData) {
+    return (
+      <section id="reports" className="px-4 sm:px-6 py-6">
+        <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
+          <RefreshCw size={20} className="animate-spin mr-2" />
+          <span>리포트를 불러오는 중...</span>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section id="reports" className="px-4 sm:px-6 py-6">
+      <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>애널리스트 리포트</h2>
+
+      <div className="space-y-6">
+        {reportsData.data.map(stock => {
+          const { toss, brokerForecasts, wisereport, name, ticker } = stock
+          const consensus = toss?.consensus
+          const opinion = toss?.opinion
+
+          return (
+            <div 
+              key={ticker}
+              className="card-surface rounded-2xl p-4 sm:p-6"
+              style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{LOGO_MAP[stock.ticker] || '📊'}</span>
+                  <div>
+                    <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{name}</h3>
+                    <p className="text-xs" style={{ color: 'var(--color-text-dim)' }}>{ticker}</p>
+                  </div>
+                </div>
+                {opinion && (
+                  <div className="text-right">
+                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>애널리스트 {opinion.total}명</p>
+                    <p className="text-xs" style={{ color: 'var(--color-text-dim)' }}>{opinion.description}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Consensus */}
+              {consensus && (
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
+                    <p className="text-[11px] mb-1 font-semibold" style={{ color: 'var(--color-text-muted)' }}>평균 목표가</p>
+                    <p className="text-lg font-bold" style={{ color: 'var(--color-brand)' }}>{fmt(Math.round(consensus.meanKrw))}원</p>
+                  </div>
+                  <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
+                    <p className="text-[11px] mb-1 font-semibold" style={{ color: 'var(--color-text-muted)' }}>최고 목표가</p>
+                    <p className="text-lg font-bold" style={{ color: 'var(--color-up)' }}>{fmt(consensus.highKrw)}원</p>
+                  </div>
+                  <div className="text-center p-3 rounded-xl" style={{ backgroundColor: 'var(--color-pill)' }}>
+                    <p className="text-[11px] mb-1 font-semibold" style={{ color: 'var(--color-text-muted)' }}>최저 목표가</p>
+                    <p className="text-lg font-bold" style={{ color: 'var(--color-down)' }}>{fmt(consensus.lowKrw)}원</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Opinion Bar */}
+              {opinion && (
+                <div className="mb-4">
+                  <div className="flex gap-1 h-3 rounded-full overflow-hidden">
+                    {opinion.strongBuy > 0 && (
+                      <div style={{ flex: opinion.strongBuy, backgroundColor: '#22c55e' }} title={`Strong Buy: ${opinion.strongBuy}`}></div>
+                    )}
+                    {opinion.buy > 0 && (
+                      <div style={{ flex: opinion.buy, backgroundColor: '#86efac' }} title={`Buy: ${opinion.buy}`}></div>
+                    )}
+                    {opinion.hold > 0 && (
+                      <div style={{ flex: opinion.hold, backgroundColor: '#fbbf24' }} title={`Hold: ${opinion.hold}`}></div>
+                    )}
+                    {opinion.sell > 0 && (
+                      <div style={{ flex: opinion.sell, backgroundColor: '#fca5a5' }} title={`Sell: ${opinion.sell}`}></div>
+                    )}
+                    {opinion.strongSell > 0 && (
+                      <div style={{ flex: opinion.strongSell, backgroundColor: '#ef4444' }} title={`Strong Sell: ${opinion.strongSell}`}></div>
+                    )}
+                  </div>
+                  <div className="flex justify-between mt-1 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+                    <span>강력매수 {opinion.strongBuy}</span>
+                    <span>매수 {opinion.buy}</span>
+                    <span>보유 {opinion.hold}</span>
+                    <span>매도 {opinion.sell}</span>
+                    <span>강력매도 {opinion.strongSell}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* WiseReport - Operating Income */}
+              {wisereport && wisereport.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-xs font-semibold mb-2" style={{ color: 'var(--color-text-dim)' }}>영업이익 추이 (조원)</p>
+                  <div className="flex items-end gap-2 h-20">
+                    {wisereport.map(w => {
+                      const val = w.operatingIncomeKrw / 1e12
+                      const maxVal = Math.max(...wisereport.map(x => Math.abs(x.operatingIncomeKrw / 1e12)))
+                      const height = maxVal > 0 ? (Math.abs(val) / maxVal) * 100 : 0
+                      return (
+                        <div key={w.year} className="flex-1 flex flex-col items-center">
+                          <div 
+                            className="w-full rounded-t"
+                            style={{ 
+                              height: `${height}%`,
+                              backgroundColor: w.status === 'estimate' 
+                                ? 'var(--color-brand)' 
+                                : val >= 0 ? 'var(--color-up)' : 'var(--color-down)',
+                              opacity: w.status === 'estimate' ? 0.6 : 1,
+                              border: w.status === 'estimate' ? '1px dashed var(--color-brand)' : 'none'
+                            }}
+                          ></div>
+                          <p className="text-[10px] mt-1" style={{ color: 'var(--color-text-muted)' }}>{w.year}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Top Broker Forecasts */}
+              {brokerForecasts && brokerForecasts.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold mb-2" style={{ color: 'var(--color-text-dim)' }}>최근 애널리스트 리포트</p>
+                  <div className="space-y-2">
+                    {brokerForecasts.slice(0, 5).map((f, i) => (
+                      <a
+                        key={f.nid || i}
+                        href={f.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-2 rounded-lg transition-colors hover:opacity-80 no-underline"
+                        style={{ backgroundColor: 'var(--color-pill)' }}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-medium truncate" style={{ color: 'var(--color-text)' }}>{f.title}</p>
+                          <div className="flex items-center gap-2 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+                            <span>{f.broker}</span>
+                            <span>·</span>
+                            <span>{f.publishedAt}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                          {f.targetPriceKrw && (
+                            <span className="text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>
+                              {fmt(f.targetPriceKrw)}원
+                            </span>
+                          )}
+                          <span 
+                            className="text-[11px] px-2 py-0.5 rounded-full font-medium"
+                            style={{ 
+                              backgroundColor: (f.opinion === '매수' || f.opinion === 'Buy' || f.opinion === 'StrongBuy') 
+                                ? 'var(--color-brand-dim)' : 'var(--color-pill)',
+                              color: (f.opinion === '매수' || f.opinion === 'Buy' || f.opinion === 'StrongBuy') 
+                                ? 'var(--color-brand)' : 'var(--color-text-dim)'
+                            }}
+                          >
+                            {f.opinion}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function Footer({ setActiveTab }) {
   return (
     <footer 
       className="px-4 sm:px-6 py-8 mt-8 border-t"
       style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="flex flex-wrap items-center justify-center gap-4 mb-4 text-sm" style={{ color: 'var(--color-text-dim)' }}>
-        <a href="#" className="hover:underline" style={{ color: 'var(--color-brand)' }}>대시보드</a>
-        <a href="#" className="hover:underline" style={{ color: 'var(--color-brand)' }}>뉴스</a>
+        <button onClick={() => setActiveTab('dashboard')} className="hover:underline" style={{ color: 'var(--color-brand)' }}>대시보드</button>
+        <button onClick={() => setActiveTab('news')} className="hover:underline" style={{ color: 'var(--color-brand)' }}>뉴스</button>
+        <button onClick={() => setActiveTab('reports')} className="hover:underline" style={{ color: 'var(--color-brand)' }}>리포트</button>
       </div>
       <p className="text-center text-xs mb-2" style={{ color: 'var(--color-text-muted)' }}>
         문의: contact@kospi.site
@@ -359,6 +537,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
+  const [reportsData, setReportsData] = useState(null)
   const [lastUpdate, setLastUpdate] = useState(null)
 
   const fetchPrices = useCallback(async () => {
@@ -386,16 +565,31 @@ function App() {
     }
   }, [])
 
+  const fetchReports = useCallback(async () => {
+    try {
+      const res = await fetch('https://kospilab.com/api/reports')
+      const json = await res.json()
+      if (json.ok) {
+        setReportsData(json)
+      }
+    } catch (e) {
+      console.error('Failed to fetch reports:', e)
+    }
+  }, [])
+
   useEffect(() => {
     fetchPrices()
     fetchNews()
+    fetchReports()
     const priceInterval = setInterval(fetchPrices, 30000)
     const newsInterval = setInterval(fetchNews, 300000)
+    const reportsInterval = setInterval(fetchReports, 300000)
     return () => {
       clearInterval(priceInterval)
       clearInterval(newsInterval)
+      clearInterval(reportsInterval)
     }
-  }, [fetchPrices, fetchNews])
+  }, [fetchPrices, fetchNews, fetchReports])
 
   useEffect(() => {
     document.documentElement.className = isDark ? 'dark' : 'light'
@@ -409,6 +603,7 @@ function App() {
         
         {activeTab === 'dashboard' && <Dashboard data={priceData} fx={priceData?.fx} />}
         {activeTab === 'news' && <NewsSection newsData={newsData} />}
+        {activeTab === 'reports' && <ReportsSection reportsData={reportsData} />}
 
         {lastUpdate && (
           <div className="px-4 sm:px-6 pb-2">
@@ -418,7 +613,7 @@ function App() {
           </div>
         )}
 
-        <Footer />
+        <Footer setActiveTab={setActiveTab} />
       </div>
 
       <button 
