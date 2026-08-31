@@ -307,7 +307,7 @@ function StockCard({ stock }) {
 }
 
 function Dashboard({ data, newsData }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
   const [showIndices, setShowIndices] = useState(false)
 
