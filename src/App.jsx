@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
+import { posts } from './blogData'
 import './index.css'
 
 const LOGOS = {
@@ -130,6 +131,7 @@ function Navigation({ activeTab, setActiveTab }) {
     { id: 'dashboard', label: '대시보드' },
     { id: 'news', label: '뉴스' },
     { id: 'reports', label: '리포트' },
+    { id: 'blog', label: '블로그' },
   ]
 
   return (
@@ -535,6 +537,44 @@ function ReportsSection({ reportsData }) {
   )
 }
 
+function BlogSection() {
+  const [selectedPost, setSelectedPost] = useState(null)
+
+  if (selectedPost) {
+    return (
+      <section id="blog" className="px-4 sm:px-6 py-6">
+        <button onClick={() => setSelectedPost(null)} className="mb-4 text-sm font-medium bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>← 목록으로</button>
+        <article>
+          <div className="mb-4">
+            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{selectedPost.category}</span>
+            <span className="text-xs ml-2" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
+          </div>
+          <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
+          <div className="prose text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }} dangerouslySetInnerHTML={{ __html: selectedPost.content }} />
+        </article>
+      </section>
+    )
+  }
+
+  return (
+    <section id="blog" className="px-4 sm:px-6 py-6">
+      <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>블로그</h2>
+      <div className="space-y-4">
+        {posts.map(post => (
+          <button key={post.slug} onClick={() => setSelectedPost(post)} className="w-full text-left p-4 rounded-xl transition-all hover:opacity-80 bg-transparent border cursor-pointer" style={{ borderColor: 'var(--color-border)' }}>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-muted)' }}>{post.category}</span>
+              <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+            </div>
+            <h3 className="font-bold text-base mb-1" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
+            <p className="text-sm" style={{ color: 'var(--color-text-dim)' }}>{post.summary}</p>
+          </button>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function InstallButton() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showInstalled, setShowInstalled] = useState(false)
@@ -590,6 +630,7 @@ function Footer({ setActiveTab }) {
         <button onClick={() => setActiveTab('dashboard')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>대시보드</button>
         <button onClick={() => setActiveTab('news')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>뉴스</button>
         <button onClick={() => setActiveTab('reports')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>리포트</button>
+        <button onClick={() => setActiveTab('blog')} className="hover:underline bg-transparent border-none cursor-pointer" style={{ color: 'var(--color-brand)' }}>블로그</button>
       </nav>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
         <a href="/about" className="hover:underline" style={{ color: 'var(--color-brand)' }}>사이트 소개</a>
@@ -660,6 +701,7 @@ function App() {
         {activeTab === 'dashboard' && <Dashboard data={priceData} newsData={newsData} setActiveTab={setActiveTab} />}
         {activeTab === 'news' && <NewsSection newsData={newsData} />}
         {activeTab === 'reports' && <ReportsSection reportsData={reportsData} />}
+        {activeTab === 'blog' && <BlogSection />}
         <AdSenseBanner slot="0000000000" format="horizontal" />
         <Footer setActiveTab={setActiveTab} />
       </main>
