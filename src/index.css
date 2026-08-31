@@ -45,6 +45,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-img {
+  aspect-ratio: 2/1;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+}
+
 .card-surface {
   background-color: var(--color-card);
   border: 1px solid var(--color-border);

@@ -211,7 +211,7 @@ function KOSPIIndexCard({ index, onShowIndices }) {
         <div className="flex min-w-0 items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
             <div className="hidden h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 sm:flex" style={{ backgroundColor: 'white', borderColor: 'var(--color-border)' }}>
-              <img src="/logos/kr-flag.svg" alt="대한민국 국기" className="h-6 w-auto" />
+              <img src="/logos/kr-flag.svg" alt="대한민국 국기" width="24" height="24" className="h-6 w-auto" />
             </div>
             <div className="min-w-0">
               <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
@@ -247,7 +247,7 @@ function StockCard({ stock }) {
     <div className="card-surface rounded-2xl p-5 transition-all" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
       <div className="mb-3 flex items-center gap-2 pr-12 min-h-10">
         {logoSrc ? (
-          <img src={logoSrc} alt={meta.name} className="h-10 w-10 shrink-0 rounded-full object-cover ring-1" style={{ borderColor: 'var(--color-border)' }} />
+          <img src={logoSrc} alt={meta.name} width="40" height="40" className="h-10 w-10 shrink-0 rounded-full object-cover ring-1" style={{ borderColor: 'var(--color-border)' }} />
         ) : (
           <div className="h-10 w-10 shrink-0 rounded-full flex items-center justify-center text-lg font-bold ring-1" style={{ backgroundColor: 'var(--color-pill)', borderColor: 'var(--color-border)', color: 'var(--color-text)' }}>
             {meta.name[0]}
@@ -306,10 +306,28 @@ function Dashboard({ data, newsData }) {
 
   if (!data) {
     return (
-      <section id="dashboard" className="px-4 sm:px-6 py-6">
-        <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
-          <RefreshCw size={20} className="animate-spin mr-2" />
-          <span>데이터를 불러오는 중...</span>
+      <section id="dashboard" className="px-4 sm:px-6 py-6 space-y-5">
+        <div className="card-surface rounded-2xl px-4 py-3.5 sm:px-6 sm:py-4" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+              <div className="h-6 w-20 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+            </div>
+            <div className="h-8 w-24 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {[1,2,3].map(i => (
+            <div key={i} className="card-surface rounded-2xl p-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-10 w-10 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+                <div className="h-6 w-24 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+              </div>
+              <div className="h-10 w-32 rounded animate-pulse mb-3" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+              <div className="h-4 w-20 rounded animate-pulse mb-2" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+              <div className="h-4 w-40 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+            </div>
+          ))}
         </div>
       </section>
     )
@@ -347,7 +365,7 @@ function Dashboard({ data, newsData }) {
                   <h3 className="font-medium text-sm leading-snug" style={{ color: 'var(--color-text)' }}>{item.title}</h3>
                 </div>
                 {item.thumbnailUrl && (
-                  <img src={item.thumbnailUrl} alt="" className="w-[60px] h-[42px] rounded object-cover flex-shrink-0 mt-0.5" loading="lazy" />
+                  <img src={item.thumbnailUrl} alt="" width="60" height="42" className="w-[60px] h-[42px] rounded object-cover flex-shrink-0 mt-0.5" loading="lazy" />
                 )}
               </a>
             ))}
@@ -365,9 +383,24 @@ function NewsSection({ newsData }) {
   if (!newsData) {
     return (
       <section id="news" className="px-4 sm:px-6 py-6">
-        <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
-          <RefreshCw size={20} className="animate-spin mr-2" />
-          <span>뉴스를 불러오는 중...</span>
+        <div className="card-surface rounded-2xl p-4 sm:p-6 mb-6" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <div className="h-4 w-20 rounded animate-pulse mb-3" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+          <div className="h-5 w-48 rounded animate-pulse mb-2" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+          <div className="h-4 w-full rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="card-surface rounded-xl p-4" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+              <div className="flex items-start gap-3">
+                <div className="h-16 w-16 rounded-lg animate-pulse flex-shrink-0" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+                <div className="flex-1">
+                  <div className="h-4 w-full rounded animate-pulse mb-2" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+                  <div className="h-3 w-3/4 rounded animate-pulse mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+                  <div className="h-3 w-1/2 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     )
@@ -420,7 +453,7 @@ function NewsSection({ newsData }) {
           <a key={item.id || i} href={item.articleUrl} target="_blank" rel="noopener noreferrer" className="card-surface rounded-xl p-4 transition-all hover:ring-2 block no-underline" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
             <div className="flex items-start gap-3">
               {item.thumbnailUrl && (
-                <img src={item.thumbnailUrl} alt="" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" loading="lazy" />
+                <img src={item.thumbnailUrl} alt="" width="64" height="64" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" loading="lazy" />
               )}
               <div className="min-w-0">
                 <h3 className="font-medium text-sm mb-1 line-clamp-2" style={{ color: 'var(--color-text)' }}>{item.title}</h3>
@@ -444,9 +477,21 @@ function ReportsSection({ reportsData }) {
   if (!reportsData) {
     return (
       <section id="reports" className="px-4 sm:px-6 py-6">
-        <div className="flex items-center justify-center py-20" style={{ color: 'var(--color-text-dim)' }}>
-          <RefreshCw size={20} className="animate-spin mr-2" />
-          <span>리포트를 불러오는 중...</span>
+        <div className="h-6 w-32 rounded animate-pulse mb-6" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+        <div className="space-y-8">
+          {[1,2,3].map(i => (
+            <div key={i}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-8 w-8 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+                <div className="h-5 w-24 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
+              </div>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="text-center"><div className="h-3 w-16 rounded animate-pulse mx-auto mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div><div className="h-5 w-20 rounded animate-pulse mx-auto" style={{ backgroundColor: 'var(--color-pill)' }}></div></div>
+                <div className="text-center"><div className="h-3 w-16 rounded animate-pulse mx-auto mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div><div className="h-5 w-20 rounded animate-pulse mx-auto" style={{ backgroundColor: 'var(--color-pill)' }}></div></div>
+                <div className="text-center"><div className="h-3 w-16 rounded animate-pulse mx-auto mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div><div className="h-5 w-20 rounded animate-pulse mx-auto" style={{ backgroundColor: 'var(--color-pill)' }}></div></div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     )
