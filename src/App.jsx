@@ -558,16 +558,29 @@ function ReportsSection({ reportsData }) {
 
 function BlogSection() {
   const { t } = useLang()
-  const [selectedPost, setSelectedPost] = useState(null)
+  const { slug } = useParams()
+  const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('전체')
 
   const categories = ['전체', ...new Set(posts.map(p => p.category))]
   const filteredPosts = selectedCategory === '전체' ? posts : posts.filter(p => p.category === selectedCategory)
 
+  const selectedPost = slug ? posts.find(p => p.slug === slug) : null
+
+  // 블로그 포스트 상세 페이지에서 문서 제목 업데이트
+  useEffect(() => {
+    if (selectedPost) {
+      document.title = `${selectedPost.title} | KOSPI.SITE`
+    } else {
+      document.title = '블로그 | KOSPI.SITE'
+    }
+    return () => { document.title = 'KOSPI.SITE' }
+  }, [selectedPost])
+
   if (selectedPost) {
     return (
       <section id="blog" className="px-4 sm:px-6 py-6 max-w-3xl mx-auto">
-        <button onClick={() => setSelectedPost(null)} className="mb-8 text-sm font-medium bg-transparent border-none cursor-pointer flex items-center gap-2 transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
+        <button onClick={() => navigate('/blog')} className="mb-8 text-sm font-medium bg-transparent border-none cursor-pointer flex items-center gap-2 transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
           <span className="text-lg">←</span> {t.backToList}
         </button>
         <article>
@@ -583,7 +596,7 @@ function BlogSection() {
             dangerouslySetInnerHTML={{ __html: selectedPost.content }}
           />
           <div className="mt-12 pt-8 border-t" style={{ borderColor: 'var(--color-border)' }}>
-            <button onClick={() => setSelectedPost(null)} className="text-sm font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
+            <button onClick={() => navigate('/blog')} className="text-sm font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
               ← {t.backToList}
             </button>
           </div>
@@ -619,7 +632,7 @@ function BlogSection() {
       {/* Featured Post */}
       {filteredPosts.length > 0 && (
         <button
-          onClick={() => setSelectedPost(filteredPosts[0])}
+          onClick={() => navigate(`/blog/${filteredPosts[0].slug}`)}
           className="w-full text-left mb-6 rounded-2xl overflow-hidden transition-all hover:scale-[1.01] bg-transparent border cursor-pointer group"
           style={{ borderColor: 'var(--color-border)' }}
         >
@@ -640,7 +653,7 @@ function BlogSection() {
         {filteredPosts.slice(1).map(post => (
           <button
             key={post.slug}
-            onClick={() => setSelectedPost(post)}
+            onClick={() => navigate(`/blog/${post.slug}`)}
             className="w-full text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border cursor-pointer group"
             style={{ borderColor: 'var(--color-border)' }}
           >
@@ -795,6 +808,7 @@ function App() {
           <Route path="/news" element={<NewsSection newsData={newsData} t={t} />} />
           <Route path="/reports" element={<ReportsSection reportsData={reportsData} t={t} />} />
           <Route path="/blog" element={<BlogSection t={t} />} />
+          <Route path="/blog/:slug" element={<BlogSection t={t} />} />
         </Routes>
         <AdSenseBanner slot="0000000000" format="horizontal" />
         <Footer t={t} />
