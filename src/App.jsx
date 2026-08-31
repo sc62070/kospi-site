@@ -593,6 +593,8 @@ function Footer({ setActiveTab }) {
       </nav>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
         <a href="/about" className="hover:underline" style={{ color: 'var(--color-brand)' }}>사이트 소개</a>
+        <a href="/glossary" className="hover:underline" style={{ color: 'var(--color-brand)' }}>용어 사전</a>
+        <a href="/faq" className="hover:underline" style={{ color: 'var(--color-brand)' }}>자주 묻는 질문</a>
         <a href="/terms" className="hover:underline" style={{ color: 'var(--color-brand)' }}>이용약관</a>
         <a href="/privacy" className="hover:underline" style={{ color: 'var(--color-brand)' }}>개인정보처리방침</a>
       </nav>
