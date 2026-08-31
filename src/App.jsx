@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { Routes, Route, Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
-import { posts } from './blogData'
 import { useLang } from './LangContext'
 import './index.css'
 
@@ -559,6 +558,11 @@ function BlogSection() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('전체')
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    import('./blogData').then(m => setPosts(m.posts))
+  }, [])
 
   const getReadingTime = (content) => {
     const text = content.replace(/<[^>]+>/g, '')
