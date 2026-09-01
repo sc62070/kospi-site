@@ -794,14 +794,14 @@ function InstallButton() {
 
   return (
     <>
-      <a href="https://www.buymeacoffee.com/quizzment" target="_blank" rel="noopener noreferrer" className="fixed bottom-20 right-6 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105 z-40 no-underline" style={{ backgroundColor: '#FFDD00', color: '#000000' }}>
+      <a href="https://www.buymeacoffee.com/quizzment" target="_blank" rel="noopener noreferrer" className="fixed bottom-20 right-6 flex items-center justify-center w-12 h-12 sm:w-auto sm:h-auto sm:px-4 sm:py-3 rounded-full shadow-lg transition-all hover:scale-105 z-40 no-underline" style={{ backgroundColor: '#FFDD00', color: '#000000' }}>
         <span className="text-lg">☕</span>
-        <span className="font-medium">Buy me a coffee</span>
+        <span className="font-medium hidden sm:inline ml-2">Buy me a coffee</span>
       </a>
 
-      <button onClick={handleInstall} className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105 z-40" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>
+      <button onClick={handleInstall} className="fixed bottom-6 right-6 flex items-center justify-center w-12 h-12 sm:w-auto sm:h-auto sm:px-4 sm:py-3 rounded-full shadow-lg transition-all hover:scale-105 z-40" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>
         <Download size={18} />
-        <span className="font-medium">{t.installApp}</span>
+        <span className="font-medium hidden sm:inline ml-2">{t.installApp}</span>
       </button>
 
       {showIOSModal && (
