@@ -870,22 +870,6 @@ function Footer() {
   const { t } = useLang()
   const [showUpdateLog, setShowUpdateLog] = useState(false)
 
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js'
-    script.async = true
-    script.dataset.name = 'bmc-button'
-    script.dataset.slug = 'quizzment'
-    script.dataset.color = '#FFDD00'
-    script.dataset.emoji = '☕'
-    script.dataset.font = 'Cookie'
-    script.dataset.text = 'Buy me a coffee'
-    script.dataset.outlineColor = '#000000'
-    script.dataset.fontColor = '#000000'
-    script.dataset.coffeeColor = '#ffffff'
-    document.getElementById('bmc-container')?.appendChild(script)
-  }, [])
-
   const updates = [
     { date: '2026-08-31', text: '블로그 섹션 신설, SEO 최적화, 성능 개선' },
     { date: '2026-08-30', text: '접근성 개선, llms.txt 추가, 색상 대비 강화' },
