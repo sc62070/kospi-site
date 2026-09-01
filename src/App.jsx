@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Routes, Route, Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Sun, Moon, Download, RefreshCw, GripVertical, X } from 'lucide-react'
+import { Sun, Moon, Download, X } from 'lucide-react'
 import { useLang } from './LangContext'
 import './index.css'
 
@@ -163,7 +163,6 @@ function Navigation() {
 }
 
 function IndicesModal({ indices, onClose }) {
-  const { t } = useLang()
   if (!indices) return null
   const indexList = Object.values(indices)
 
@@ -201,7 +200,6 @@ function IndicesModal({ indices, onClose }) {
 }
 
 function KOSPIIndexCard({ index, onShowIndices }) {
-  const { t } = useLang()
   if (!index) return null
   const isDown = index.changePct < 0
 

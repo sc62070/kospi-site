@@ -40,7 +40,7 @@ exports.handler = async (event) => {
       headers: { ...headers, 'Content-Type': 'application/json' },
       body: cache,
     };
-  } catch (err) {
+  } catch {
     return {
       statusCode: 502,
       headers,
