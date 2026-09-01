@@ -261,3 +261,16 @@ img {
 .blog-content td {
   color: var(--color-text-dim);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ping,
+  .animate-pulse {
+    animation: none;
+  }
+  .theme-toggle-thumb {
+    transition: none;
+  }
+  .flip-inner {
+    transition: none;
+  }
+}

@@ -168,11 +168,11 @@ function IndicesModal({ indices, onClose }) {
   const indexList = Object.values(indices)
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={onClose} onKeyDown={(e) => e.key === 'Escape' && onClose()} role="dialog" aria-modal="true" aria-labelledby="indices-modal-title">
       <div className="w-full max-w-lg rounded-2xl p-6" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }} onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>시장 지수</h2>
-          <button onClick={onClose} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>
+          <h2 id="indices-modal-title" className="text-xl font-bold" style={{ color: 'var(--color-text)' }}>시장 지수</h2>
+          <button onClick={onClose} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }} aria-label="닫기">
             <X size={18} />
           </button>
         </div>
@@ -425,18 +425,18 @@ function NewsSection({ newsData }) {
             )}
           </div>
           {briefingOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setBriefingOpen(false)}>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setBriefingOpen(false)} onKeyDown={(e) => e.key === 'Escape' && setBriefingOpen(false)} role="dialog" aria-modal="true" aria-labelledby="briefing-modal-title">
               <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-6" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }} onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
               <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>시장 브리핑</span>
                     <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
                   </div>
-                  <button onClick={() => setBriefingOpen(false)} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>
+                  <button onClick={() => setBriefingOpen(false)} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }} aria-label="닫기">
                     <X size={18} />
                   </button>
                 </div>
-                <h3 className="font-bold text-xl mb-4" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
+                <h3 id="briefing-modal-title" className="font-bold text-xl mb-4" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
                 <div className="text-sm leading-relaxed space-y-4" style={{ color: 'var(--color-text-dim)' }} dangerouslySetInnerHTML={{ __html: briefing.detail }} />
               </div>
             </div>
@@ -666,6 +666,13 @@ function BlogSection() {
             className="blog-content text-[15px] leading-relaxed"
             style={{ color: 'var(--color-text-dim)' }}
             dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+            onClick={(e) => {
+              const link = e.target.closest('a[href^="/blog/"]')
+              if (link) {
+                e.preventDefault()
+                navigate(link.getAttribute('href'))
+              }
+            }}
           />
           <div className="mt-12 pt-8 border-t" style={{ borderColor: 'var(--color-border)' }}>
             <button onClick={() => navigate('/blog')} className="text-sm font-medium bg-transparent border-none cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--color-brand)' }}>
@@ -938,7 +945,11 @@ function NotFound() {
 
 function App() {
   const { t } = useLang()
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    if (saved) return saved === 'dark'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  })
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
   const [reportsData, setReportsData] = useState(null)
@@ -979,7 +990,10 @@ function App() {
     return () => { clearInterval(p); clearInterval(n); clearInterval(r) }
   }, [fetchPrices, fetchNews, fetchReports])
 
-  useEffect(() => { document.documentElement.className = isDark ? 'dark' : 'light' }, [isDark])
+  useEffect(() => {
+    document.documentElement.className = isDark ? 'dark' : 'light'
+    localStorage.setItem('theme', isDark ? 'dark' : 'light')
+  }, [isDark])
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
