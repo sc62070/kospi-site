@@ -794,6 +794,11 @@ function InstallButton() {
 
   return (
     <>
+      <a href="https://www.buymeacoffee.com/quizzment" target="_blank" rel="noopener noreferrer" className="fixed bottom-20 right-6 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105 z-40 no-underline" style={{ backgroundColor: '#FFDD00', color: '#000000' }}>
+        <span className="text-lg">☕</span>
+        <span className="font-medium" style={{ fontFamily: 'Cookie, cursive' }}>Buy me a coffee</span>
+      </a>
+
       <button onClick={handleInstall} className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105 z-40" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>
         <Download size={18} />
         <span className="font-medium">{t.installApp}</span>
@@ -902,7 +907,6 @@ function Footer() {
       <div className="my-4 p-4 rounded-xl" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
         <p className="font-semibold mb-1" style={{ color: 'var(--color-text)' }}>광고/제안 문의</p>
         <a href="mailto:contact@kospi.site" className="text-sm font-medium" style={{ color: 'var(--color-brand)' }}>contact@kospi.site</a>
-        <div id="bmc-container" className="mt-3"></div>
       </div>
 
       <p className="mb-2">{t.dataSource}</p>
