@@ -870,6 +870,22 @@ function Footer() {
   const { t } = useLang()
   const [showUpdateLog, setShowUpdateLog] = useState(false)
 
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js'
+    script.async = true
+    script.dataset.name = 'bmc-button'
+    script.dataset.slug = 'quizzment'
+    script.dataset.color = '#FFDD00'
+    script.dataset.emoji = '☕'
+    script.dataset.font = 'Cookie'
+    script.dataset.text = 'Buy me a coffee'
+    script.dataset.outlineColor = '#000000'
+    script.dataset.fontColor = '#000000'
+    script.dataset.coffeeColor = '#ffffff'
+    document.getElementById('bmc-container')?.appendChild(script)
+  }, [])
+
   const updates = [
     { date: '2026-08-31', text: '블로그 섹션 신설, SEO 최적화, 성능 개선' },
     { date: '2026-08-30', text: '접근성 개선, llms.txt 추가, 색상 대비 강화' },
@@ -902,6 +918,7 @@ function Footer() {
       <div className="my-4 p-4 rounded-xl" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
         <p className="font-semibold mb-1" style={{ color: 'var(--color-text)' }}>광고/제안 문의</p>
         <a href="mailto:contact@kospi.site" className="text-sm font-medium" style={{ color: 'var(--color-brand)' }}>contact@kospi.site</a>
+        <div id="bmc-container" className="mt-3"></div>
       </div>
 
       <p className="mb-2">{t.dataSource}</p>
