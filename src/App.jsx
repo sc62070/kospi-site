@@ -756,8 +756,10 @@ function InstallButton() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showInstalled, setShowInstalled] = useState(false)
   const [showIOSModal, setShowIOSModal] = useState(false)
+  const [showAndroidModal, setShowAndroidModal] = useState(false)
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  const isAndroid = /Android/.test(navigator.userAgent)
 
   useEffect(() => {
     if (isIOS) return
@@ -772,7 +774,12 @@ function InstallButton() {
       setShowIOSModal(true)
       return
     }
-    if (!deferredPrompt) return
+    if (!deferredPrompt) {
+      if (isAndroid) {
+        setShowAndroidModal(true)
+      }
+      return
+    }
     deferredPrompt.prompt()
     const { outcome } = await deferredPrompt.userChoice
     if (outcome === 'accepted') setDeferredPrompt(null)
@@ -812,6 +819,38 @@ function InstallButton() {
             </div>
             <div className="mt-5 pt-4 border-t flex justify-end" style={{ borderColor: 'var(--color-border)' }}>
               <button onClick={() => setShowIOSModal(false)} className="px-4 py-2 rounded-lg font-medium text-sm border-none cursor-pointer" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAndroidModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setShowAndroidModal(false)}>
+          <div className="w-full max-w-sm rounded-2xl p-6" style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>홈 화면에 추가</h3>
+              <button onClick={() => setShowAndroidModal(false)} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>
+                <X size={18} />
+              </button>
+            </div>
+            <div className="space-y-4 text-sm" style={{ color: 'var(--color-text-dim)' }}>
+              <div className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>1</span>
+                <p>Chrome 상단의 <strong style={{ color: 'var(--color-text)' }}>메뉴 버튼</strong> (⋮) 을 누르세요</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>2</span>
+                <p><strong style={{ color: 'var(--color-text)' }}>홈 화면에 추가</strong>를 선택하세요</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>3</span>
+                <p>이름을 확인 후 <strong style={{ color: 'var(--color-text)' }}>추가</strong>를 누르면 완료됩니다</p>
+              </div>
+            </div>
+            <div className="mt-5 pt-4 border-t flex justify-end" style={{ borderColor: 'var(--color-border)' }}>
+              <button onClick={() => setShowAndroidModal(false)} className="px-4 py-2 rounded-lg font-medium text-sm border-none cursor-pointer" style={{ backgroundColor: 'var(--color-brand)', color: 'white' }}>
                 확인
               </button>
             </div>
