@@ -1,13 +1,11 @@
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import compression from 'vite-plugin-compression'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    compression({ algorithm: 'gzip', ext: '.gz' }),
   ],
   build: {
     rollupOptions: {
