@@ -89,8 +89,8 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
       </div>
 
       <div className="md:hidden">
-        <div className="flex items-center justify-between -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 px-3 py-2">
-          <div className="flex flex-col gap-0.5 min-w-0">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center -mx-4 -mt-6 sm:-mx-6 sm:-mt-8 px-3 py-2">
+          <div className="flex flex-col gap-0.5 min-w-0 justify-self-start">
             {timeLabel && (
               <div className="num flex items-center gap-1 text-[11px] whitespace-nowrap">
                 <span className="relative flex h-[6px] w-[6px] shrink-0">
@@ -110,10 +110,10 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
               )}
             </div>
           </div>
-          <Link to="/" className="text-center cursor-pointer bg-transparent border-none no-underline">
+          <Link to="/" className="text-center cursor-pointer bg-transparent border-none no-underline justify-self-center">
             <h1 className="text-xl font-bold leading-none tracking-tight" style={{ color: 'var(--color-text)' }}>KOSPI.SITE</h1>
           </Link>
-          <div className="flex justify-end">
+          <div className="flex justify-end justify-self-end">
             <button onClick={() => setIsDark(!isDark)} className="theme-toggle" role="switch" aria-checked={isDark} aria-label="다크모드 토글">
               <span className={`theme-toggle-thumb ${isDark ? 'is-right' : ''}`}></span>
               <span className={`theme-toggle-icon ${!isDark ? 'is-active' : ''}`}><Sun size={14} /></span>
@@ -301,6 +301,7 @@ function Dashboard({ data, newsData }) {
   const [showIndices, setShowIndices] = useState(false)
 
   const allNews = newsData?.data?.[0]?.items || []
+  const briefing = newsData?.briefing
 
   if (!data) {
     return (
@@ -345,6 +346,17 @@ function Dashboard({ data, newsData }) {
           <StockCard key={stock.meta.slug} stock={stock} />
         ))}
       </div>
+
+      {briefing && (
+        <div className="card-surface rounded-2xl px-4 py-3.5 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="pill-surface rounded-full px-2 py-1 text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>오늘의 시장 요약</span>
+            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{briefing.createdAtLabel}</span>
+          </div>
+          <h3 className="font-bold text-sm mb-2" style={{ color: 'var(--color-text)' }}>{briefing.title}</h3>
+          <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: 'var(--color-text-dim)' }}>{briefing.summary}</p>
+        </div>
+      )}
 
       {allNews.length > 0 && (
         <div className="mt-8">
