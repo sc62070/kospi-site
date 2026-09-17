@@ -991,6 +991,12 @@ function NotFound() {
   )
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
+
 function App() {
   const { t } = useLang()
   const [isDark, setIsDark] = useState(() => {
@@ -1046,6 +1052,7 @@ function App() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <main className="max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <ScrollToTop />
         <Header isDark={isDark} setIsDark={setIsDark} fx={priceData?.fx} lastUpdated={lastUpdated} />
         <Navigation t={t} />
         <Routes>
