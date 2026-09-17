@@ -299,6 +299,11 @@ function Dashboard({ data, newsData }) {
   const { t } = useLang()
   const navigate = useNavigate()
   const [showIndices, setShowIndices] = useState(false)
+  const [blogPosts, setBlogPosts] = useState([])
+
+  useEffect(() => {
+    import('./blogData').then(m => setBlogPosts(m.posts.slice(0, 4)))
+  }, [])
 
   const allNews = newsData?.data?.[0]?.items || []
   const briefing = newsData?.briefing
@@ -378,6 +383,34 @@ function Dashboard({ data, newsData }) {
                   <img src={item.thumbnailUrl} alt="" width="60" height="42" className="w-[60px] h-[42px] rounded object-cover flex-shrink-0 mt-0.5" loading="lazy" />
                 )}
               </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {blogPosts.length > 0 && (
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>{t.blog}</h2>
+            <button onClick={() => navigate('/blog')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>더보기 →</button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {blogPosts.map(post => (
+              <button
+                key={post.slug}
+                onClick={() => navigate(`/blog/${post.slug}`)}
+                className="w-full text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border cursor-pointer group"
+                style={{ borderColor: 'var(--color-border)' }}
+              >
+                <div className="flex items-start gap-3 p-3">
+                  <img src={post.thumbnail} alt="" loading="lazy" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-block mb-1" style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}>{post.category}</span>
+                    <h3 className="font-medium text-sm leading-snug line-clamp-2" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
+                    <span className="text-[11px] mt-1 inline-block" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+                  </div>
+                </div>
+              </button>
             ))}
           </div>
         </div>
