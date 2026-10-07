@@ -129,8 +129,7 @@ function Header({ isDark, setIsDark, fx, lastUpdated }) {
 function Navigation() {
   const { t } = useLang()
   const location = useLocation()
-  const navigate = useNavigate()
-  const path = location.pathname === '/' ? 'dashboard' : location.pathname.slice(1)
+  const path = location.pathname === '/' ? 'dashboard' : location.pathname.slice(1).split('/')[0]
   const tabs = [
     { id: 'dashboard', label: t.dashboard, to: '/' },
     { id: 'news', label: t.news, to: '/news' },
@@ -143,9 +142,9 @@ function Navigation() {
       <ul className="flex gap-4 sm:gap-10 min-w-max" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {tabs.map(tab => (
           <li key={tab.id}>
-            <button
-              onClick={() => navigate(tab.to)}
-              className="relative py-3 sm:py-4 text-[17px] sm:text-lg tracking-tight whitespace-nowrap transition-colors duration-200 border-none cursor-pointer"
+            <Link
+              to={tab.to}
+              className="relative block py-3 sm:py-4 text-[17px] sm:text-lg tracking-tight whitespace-nowrap transition-colors duration-200 cursor-pointer no-underline"
               style={{
                 color: path === tab.id ? 'var(--color-text)' : 'var(--color-text-dim)',
                 fontWeight: path === tab.id ? 600 : 500,
@@ -154,7 +153,7 @@ function Navigation() {
             >
               {tab.label}
               <span className="absolute -bottom-px left-0 right-0 h-[2.5px] sm:h-[3px] rounded-full transition-opacity duration-200" style={{ backgroundColor: 'var(--color-brand)', opacity: path === tab.id ? 1 : 0 }}></span>
-            </button>
+            </Link>
           </li>
         ))}
       </ul>
@@ -302,11 +301,41 @@ function Dashboard({ data, newsData }) {
   const [blogPosts, setBlogPosts] = useState([])
 
   useEffect(() => {
-    import('./blogData').then(m => setBlogPosts(m.posts.slice(0, 4)))
+    import('./blogData').then(m => setBlogPosts(m.posts))
   }, [])
 
   const allNews = newsData?.data?.[0]?.items || []
   const briefing = newsData?.briefing
+
+  const blogPreview = blogPosts.length > 0 && (
+    <div className="mt-8">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>{t.blog}</h2>
+        <Link to="/blog" className="text-xs font-medium transition-colors no-underline" style={{ color: 'var(--color-brand)' }}>더보기 →</Link>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {blogPosts.slice(0, 4).map(post => (
+          <Link
+            key={post.slug}
+            to={`/blog/${post.slug}`}
+            className="w-full block text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border group no-underline"
+            style={{ borderColor: 'var(--color-border)' }}
+          >
+            <div className="flex items-start gap-3 p-3">
+              <img src={post.thumbnail} alt="" loading="lazy" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-block mb-1" style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}>{post.category}</span>
+                <h3 className="font-medium text-sm leading-snug line-clamp-2" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
+                <span className="text-[11px] mt-1 inline-block" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+
+  const homeIntro = <HomeIntro posts={blogPosts} />
 
   if (!data) {
     return (
@@ -333,6 +362,8 @@ function Dashboard({ data, newsData }) {
             </div>
           ))}
         </div>
+        {blogPreview}
+        {homeIntro}
       </section>
     )
   }
@@ -388,34 +419,40 @@ function Dashboard({ data, newsData }) {
         </div>
       )}
 
-      {blogPosts.length > 0 && (
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>{t.blog}</h2>
-            <button onClick={() => navigate('/blog')} className="text-xs font-medium bg-transparent border-none cursor-pointer transition-colors" style={{ color: 'var(--color-brand)' }}>더보기 →</button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {blogPosts.map(post => (
-              <button
-                key={post.slug}
-                onClick={() => navigate(`/blog/${post.slug}`)}
-                className="w-full text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border cursor-pointer group"
-                style={{ borderColor: 'var(--color-border)' }}
-              >
-                <div className="flex items-start gap-3 p-3">
-                  <img src={post.thumbnail} alt="" loading="lazy" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-block mb-1" style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}>{post.category}</span>
-                    <h3 className="font-medium text-sm leading-snug line-clamp-2" style={{ color: 'var(--color-text)' }}>{post.title}</h3>
-                    <span className="text-[11px] mt-1 inline-block" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {blogPreview}
+      {homeIntro}
     </section>
+  )
+}
+
+function HomeIntro({ posts }) {
+  const featured = posts.slice(0, 6)
+  return (
+    <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+        <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>KOSPI.SITE는 어떤 곳인가요?</h2>
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>
+          KOSPI.SITE는 삼성전자·SK하이닉스·현대차의 해외 참고가와 전일 종가, 시가총액을 한 화면에서 비교하는 투자 참고용 대시보드입니다. KOSPI·KOSDAQ 지수와 USD/KRW 환율, 증권 공시와 시장 브리핑도 함께 제공합니다. 주식 투자 기초, ETF, 세금, 재무제표, 기술적 분석까지 50여 편의 가이드를 블로그에서 확인할 수 있습니다.
+        </p>
+        <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
+          금융 용어가 궁금하다면 <Link to="/glossary" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>용어 사전</Link>,
+          답변이 필요하다면 <Link to="/faq" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>자주 묻는 질문</Link>,
+          운영 방식과 데이터 출처는 <Link to="/about" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>사이트 소개</Link>에서 확인하세요.
+        </p>
+      </div>
+      <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+        <h2 className="font-bold text-base mb-3" style={{ color: 'var(--color-text)' }}>추천 글</h2>
+        <ul className="space-y-2" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {featured.map(post => (
+            <li key={post.slug} className="text-sm leading-snug">
+              <Link to={`/blog/${post.slug}`} className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>{post.title}</Link>
+              <span className="ml-2 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
+            </li>
+          ))}
+        </ul>
+        <Link to="/blog" className="inline-block mt-3 text-xs font-medium no-underline" style={{ color: 'var(--color-brand)' }}>블로그 전체 보기 →</Link>
+      </div>
+    </div>
   )
 }
 
@@ -753,9 +790,9 @@ function BlogSection() {
 
       {/* Featured Post */}
       {filteredPosts.length > 0 && (
-        <button
-          onClick={() => navigate(`/blog/${filteredPosts[0].slug}`)}
-          className="w-full text-left mb-6 rounded-2xl overflow-hidden transition-all hover:scale-[1.01] bg-transparent border cursor-pointer group"
+        <Link
+          to={`/blog/${filteredPosts[0].slug}`}
+          className="w-full block text-left mb-6 rounded-2xl overflow-hidden transition-all hover:scale-[1.01] bg-transparent border group no-underline"
           style={{ borderColor: 'var(--color-border)' }}
         >
           <div className="relative">
@@ -768,16 +805,16 @@ function BlogSection() {
               <span className="text-xs text-white/60 mt-2 inline-block">약 {getReadingTime(filteredPosts[0].content)}분 읽기</span>
             </div>
           </div>
-        </button>
+        </Link>
       )}
 
       {/* Post Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filteredPosts.slice(1).map(post => (
-          <button
+          <Link
             key={post.slug}
-            onClick={() => navigate(`/blog/${post.slug}`)}
-            className="w-full text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border cursor-pointer group"
+            to={`/blog/${post.slug}`}
+            className="w-full block text-left rounded-xl overflow-hidden transition-all hover:scale-[1.02] bg-transparent border group no-underline"
             style={{ borderColor: 'var(--color-border)' }}
           >
             <div className="relative">
@@ -794,7 +831,7 @@ function BlogSection() {
                 <span className="text-[11px] font-medium" style={{ color: 'var(--color-brand)' }}>읽기 →</span>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </section>
@@ -921,6 +958,7 @@ function Footer() {
   const [showUpdateLog, setShowUpdateLog] = useState(false)
 
   const updates = [
+    { date: '2026-09-21', text: '개인정보처리방침·이용약관 보강, ads.txt 추가, SEO 개선' },
     { date: '2026-08-31', text: '블로그 섹션 신설, SEO 최적화, 성능 개선' },
     { date: '2026-08-30', text: '접근성 개선, llms.txt 추가, 색상 대비 강화' },
     { date: '2026-08-29', text: '코드 스플리팅, 블로그 데이터 지연 로딩' },
@@ -972,8 +1010,14 @@ function Footer() {
         </div>
       )}
 
+      <div className="mt-4 pt-4 border-t space-y-1" style={{ borderColor: 'var(--color-border)' }}>
+        <p className="text-xs" style={{ opacity: 0.6 }}>데이터 출처: 해외 파생상품 거래소(참고가) · 금융 공공데이터(data.go.kr) · 공개 시장 데이터 · 다수 뉴스 제공사 · 토스 증권 공시</p>
+        <p className="text-xs" style={{ opacity: 0.6 }}>해외 참고가는 공식 거래소 시세가 아니며, 투자 참고용으로만 활용하시기 바랍니다.</p>
+        <p className="text-xs" style={{ opacity: 0.5 }}>본 서비스는 투자 참고용 정보를 제공하는 것이며, 투자 권유나 매매 중개를 하지 않습니다.</p>
+      </div>
+
       <p className="mt-3 text-xs" style={{ opacity: 0.5 }}>{t.investmentDisclaimer}</p>
-      <p className="mt-2 text-xs" style={{ opacity: 0.4 }}>© 2026 KOSPI.SITE. All rights reserved.</p>
+      <p className="mt-2 text-xs" style={{ opacity: 0.4 }}>© 2026 KOSPI.SITE. All rights reserved. | <a href="mailto:contact@kospi.site" style={{ color: 'var(--color-brand)', opacity: 1 }}>contact@kospi.site</a></p>
     </footer>
   )
 }
@@ -1048,6 +1092,22 @@ function App() {
     document.documentElement.className = isDark ? 'dark' : 'light'
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }, [isDark])
+
+  const location = useLocation()
+  useEffect(() => {
+    const thinPaths = ['/news', '/reports']
+    let meta = document.querySelector('meta[name="robots"]')
+    if (!meta) {
+      meta = document.createElement('meta')
+      meta.name = 'robots'
+      document.head.appendChild(meta)
+    }
+    if (thinPaths.includes(location.pathname)) {
+      meta.content = 'noindex, nofollow'
+    } else {
+      meta.content = 'index, follow, max-image-preview:large, max-snippet:-1'
+    }
+  }, [location.pathname])
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
