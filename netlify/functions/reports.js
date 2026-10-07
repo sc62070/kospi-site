@@ -29,11 +29,27 @@ exports.handler = async (event) => {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
-    const res = await fetch('https://kospilab.com/api/reports', { signal: controller.signal });
+    const res = await fetch('https://raoni.xyz/api/reports', { signal: controller.signal });
     clearTimeout(timeout);
     if (!res.ok) throw new Error(`Upstream returned ${res.status}`);
     const data = await res.json();
-    cache = JSON.stringify(data);
+    if (!data.ok || !Array.isArray(data.data)) throw new Error('Unexpected upstream payload');
+    cache = JSON.stringify({
+      ok: true,
+      updated: data.updated,
+      data: data.data.map((stock) => ({
+        ticker: stock.code,
+        name: stock.name,
+        brokerForecasts: (stock.reports || []).map((r) => ({
+          nid: r.nid,
+          title: r.title,
+          broker: r.broker,
+          publishedAt: r.date,
+          link: r.url,
+          pdf: r.pdf,
+        })),
+      })),
+    });
     cacheTime = now;
     return {
       statusCode: 200,
@@ -41,6 +57,13 @@ exports.handler = async (event) => {
       body: cache,
     };
   } catch {
+    if (cache) {
+      return {
+        statusCode: 200,
+        headers: { ...headers, 'Content-Type': 'application/json', 'X-Cache': 'stale' },
+        body: cache,
+      };
+    }
     return {
       statusCode: 502,
       headers,

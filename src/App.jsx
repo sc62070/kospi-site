@@ -602,9 +602,26 @@ function NewsSection({ newsData }) {
   )
 }
 
-function ReportsSection({ reportsData }) {
+function ReportsSection({ reportsData, status, onRetry }) {
   const { t } = useLang()
   if (!reportsData) {
+    if (status === 'error') {
+      return (
+        <section id="reports" className="px-4 sm:px-6 py-6">
+          <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>{t.reportsTitle}</h2>
+          <div className="border rounded-lg p-6 text-center" style={{ borderColor: 'var(--color-border)' }}>
+            <p className="text-sm mb-4" style={{ color: 'var(--color-text-muted)' }}>리포트를 불러오지 못했습니다.</p>
+            <button
+              onClick={onRetry}
+              className="text-sm px-4 py-2 rounded-lg"
+              style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}
+            >
+              다시 시도
+            </button>
+          </div>
+        </section>
+      )
+    }
     return (
       <section id="reports" className="px-4 sm:px-6 py-6">
         <div className="h-6 w-32 rounded animate-pulse mb-6" style={{ backgroundColor: 'var(--color-pill)' }}></div>
@@ -628,6 +645,15 @@ function ReportsSection({ reportsData }) {
   }
 
   const tickerToSlug = { '005930': 'samsung', '000660': 'skhynix', '005380': 'hyundai' }
+
+  if (!reportsData.data || reportsData.data.length === 0) {
+    return (
+      <section id="reports" className="px-4 sm:px-6 py-6">
+        <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>{t.reportsTitle}</h2>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>등록된 리포트가 없습니다.</p>
+      </section>
+    )
+  }
 
   return (
     <section id="reports" className="px-4 sm:px-6 py-6">
@@ -713,7 +739,7 @@ function ReportsSection({ reportsData }) {
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           {f.targetPriceKrw && <span className="text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>{fmt(f.targetPriceKrw)}원</span>}
-                          <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>{f.opinion}</span>
+                          {f.opinion && <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>{f.opinion}</span>}
                         </div>
                       </a>
                     ))}
@@ -1101,6 +1127,7 @@ function App() {
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
   const [reportsData, setReportsData] = useState(null)
+  const [reportsStatus, setReportsStatus] = useState('loading')
   const [lastUpdated, setLastUpdated] = useState(null)
 
   const fetchPrices = useCallback(async () => {
@@ -1126,8 +1153,16 @@ function App() {
     try {
       const res = await fetch('/api/reports')
       const json = await res.json()
-      if (json.ok) setReportsData(json)
-    } catch (e) { console.error('Failed to fetch reports:', e) }
+      if (json.ok) {
+        setReportsData(json)
+        setReportsStatus('ready')
+      } else {
+        setReportsStatus('error')
+      }
+    } catch (e) {
+      console.error('Failed to fetch reports:', e)
+      setReportsStatus('error')
+    }
   }, [])
 
   useEffect(() => {
@@ -1168,7 +1203,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard data={priceData} newsData={newsData} t={t} />} />
           <Route path="/news" element={<NewsSection newsData={newsData} t={t} />} />
-          <Route path="/reports" element={<ReportsSection reportsData={reportsData} t={t} />} />
+          <Route path="/reports" element={<ReportsSection reportsData={reportsData} status={reportsStatus} onRetry={fetchReports} t={t} />} />
           <Route path="/blog" element={<BlogSection t={t} />} />
           <Route path="/blog/:slug" element={<BlogSection t={t} />} />
           <Route path="*" element={<NotFound />} />

@@ -8,6 +8,7 @@ export const translations = {
     reports: '리포트',
     blog: '블로그',
     recentReports: '최근 리포트',
+    reportsTitle: '애널리스트 리포트',
     blogTitle: '블로그',
     blogDesc: '주식 투자에 필요한 지식과 시장 분석을 정리합니다.',
     backToList: '← 목록으로',
