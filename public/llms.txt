@@ -6,7 +6,6 @@
 
 - [대시보드](https://kospi.site) - 실시간 주식 시세 비교 (삼성전자, SK하이닉스, 현대차)
 - [뉴스](https://kospi.site/news) - 시장 브리핑 및 최신 뉴스
-- [리포트](https://kospi.site/reports) - 애널리스트 목표가 및 의견
 - [블로그](https://kospi.site/blog) - 투자 가이드 및 시장 분석
 
 ## 블로그 콘텐츠

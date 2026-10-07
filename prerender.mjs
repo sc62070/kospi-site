@@ -17,7 +17,6 @@ const staticMeta = {
   '/terms': { desc: 'KOSPI.SITE 이용약관입니다.' },
   '/privacy': { desc: 'KOSPI.SITE 개인정보처리방침입니다.' },
   '/news': { desc: '삼성전자, SK하이닉스, 현대차 관련 실시간 증시 뉴스와 시장 브리핑을 제공합니다.' },
-  '/reports': { desc: '삼성전자, SK하이닉스, 현대차의 증권사 목표주가 컨센서스와 기업 리포트를 한눈에 비교합니다.' },
 }
 
 function metaFor(route) {
@@ -83,7 +82,6 @@ const routes = [
   '/terms',
   '/privacy',
   '/news',
-  '/reports',
   ...posts.map(p => `/blog/${p.slug}`)
 ]
 

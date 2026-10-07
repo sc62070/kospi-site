@@ -133,7 +133,6 @@ function Navigation() {
   const tabs = [
     { id: 'dashboard', label: t.dashboard, to: '/' },
     { id: 'news', label: t.news, to: '/news' },
-    { id: 'reports', label: t.reports, to: '/reports' },
     { id: 'blog', label: t.blog, to: '/blog' },
   ]
 
@@ -433,10 +432,10 @@ function HomeIntro({ posts }) {
         <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
           <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>KOSPI.SITE는 어떤 곳인가요?</h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>
-            KOSPI.SITE는 삼성전자·SK하이닉스·현대차의 해외 참고가와 전일 종가, 시가총액을 한 화면에서 비교하는 투자 참고용 대시보드입니다. KOSPI·KOSDAQ 지수와 USD/KRW 환율, 증권 공시와 시장 브리핑도 함께 제공합니다. 주식 투자 기초, ETF, 세금, 재무제표, 기술적 분석까지 50여 편의 가이드를 블로그에서 확인할 수 있습니다.
+            KOSPI.SITE는 삼성전자·SK하이닉스·현대차의 해외 참고가와 전일 종가, 시가총액을 한 화면에서 비교하는 투자 참고용 대시보드입니다. KOSPI·KOSDAQ 지수와 USD/KRW 환율, 시장 브리핑도 함께 제공합니다. 주식 투자 기초, ETF, 세금, 재무제표, 기술적 분석까지 50여 편의 가이드를 블로그에서 확인할 수 있습니다.
           </p>
           <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
-            삼성전자, SK하이닉스, 현대차는 시가총액과 거래량 기준으로 코스피를 움직이는 대표 종목입니다. 세 종목의 흐름만 잘 봐도 국내 증시의 방향이 어느 쪽으로 기울고 있는지 파악하는 데 도움이 됩니다. KOSPI.SITE는 이 세 종목의 가격 정보와 뉴스, 리포트를 한곳에 모아, 매번 여기저기 창을 띄워 확인해야 하는 수고를 줄여 줍니다. 초보자도 실전 투자자도 로그인 없이 무료로 사용할 수 있습니다.
+            삼성전자, SK하이닉스, 현대차는 시가총액과 거래량 기준으로 코스피를 움직이는 대표 종목입니다. 세 종목의 흐름만 잘 봐도 국내 증시의 방향이 어느 쪽으로 기울고 있는지 파악하는 데 도움이 됩니다. KOSPI.SITE는 이 세 종목의 가격 정보와 뉴스를 한곳에 모아, 매번 여기저기 창을 띄워 확인해야 하는 수고를 줄여 줍니다. 초보자도 실전 투자자도 로그인 없이 무료로 사용할 수 있습니다.
           </p>
           <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
             블로그에는 초보자를 위한 계좌 개설과 ETF 기초부터 배당·절세 전략, 재무제표 읽기, 이동평균선과 MACD 같은 기술적 분석까지 폭넓은 주제를 다루고 있습니다. 각 글은 실제 시장 데이터와 사례를 들어 설명하며, 글 안의 관련 글 링크로 이어지도록 구성해 한 주제를 깊이 있게 따라갈 수 있습니다.
@@ -455,7 +454,6 @@ function HomeIntro({ posts }) {
             <li><strong style={{ color: 'var(--color-text)' }}>지수와 환율:</strong> KOSPI·KOSDAQ 주요 지수와 USD/KRW 환율을 함께 확인할 수 있습니다.</li>
             <li><strong style={{ color: 'var(--color-text)' }}>오늘의 시장 요약:</strong> 하루의 시장 흐름을 짧은 브리핑으로 정리해 드립니다.</li>
             <li><strong style={{ color: 'var(--color-text)' }}>실시간 뉴스:</strong> 세 종목과 증시 전체 관련 뉴스 헤드라인을 제공합니다.</li>
-            <li><strong style={{ color: 'var(--color-text)' }}>리포트 컨센서스:</strong> 증권사 목표주가와 애널리스트 의견을 한눈에 비교합니다.</li>
             <li><strong style={{ color: 'var(--color-text)' }}>용어 사전과 블로그:</strong> 어려운 금융 용어를 풀이하고, 투자 전략과 기초 지식을 글로 정리합니다.</li>
           </ul>
         </div>
@@ -465,7 +463,7 @@ function HomeIntro({ posts }) {
         <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
           <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>데이터 출처와 갱신 방식</h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>
-            KOSPI.SITE가 사용하는 데이터는 금융 공공데이터(data.go.kr)와 공개 시장 데이터, 해외 파생상품 거래소의 참고가, 증권사 공시 정보 등 공개된 출처에서 수집합니다. 대시보드의 시세는 약 30초마다 자동으로 갱신되며, 리포트 정보는 매시간 갱신됩니다. 해외 참고가는 공식 거래소 시세가 아니므로 투자 판단의 절대 근거가 아니라 참고 자료로만 활용해야 합니다.
+            KOSPI.SITE가 사용하는 데이터는 금융 공공데이터(data.go.kr)와 공개 시장 데이터, 해외 파생상품 거래소의 참고가 등 공개된 출처에서 수집합니다. 대시보드의 시세는 약 30초마다 자동으로 갱신됩니다. 해외 참고가는 공식 거래소 시세가 아니므로 투자 판단의 절대 근거가 아니라 참고 자료로만 활용해야 합니다.
           </p>
           <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
             로그인과 회원가입을 요구하지 않으므로 개인정보를 별도로 수집하지 않습니다. 사이트는 광고 수익으로 운영되며 모든 기능은 무료로 제공됩니다. 자세한 운영 원칙은 <Link to="/about" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>사이트 소개</Link>, 개인정보 처리에 관한 내용은 <Link to="/privacy" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>개인정보처리방침</Link>에서 확인할 수 있습니다. 데이터 오류나 문의 사항은 contact@kospi.site로 알려 주세요.
@@ -597,158 +595,6 @@ function NewsSection({ newsData }) {
             </div>
           </a>
         ))}
-      </div>
-    </section>
-  )
-}
-
-function ReportsSection({ reportsData, status, onRetry }) {
-  const { t } = useLang()
-  if (!reportsData) {
-    if (status === 'error') {
-      return (
-        <section id="reports" className="px-4 sm:px-6 py-6">
-          <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>{t.reportsTitle}</h2>
-          <div className="border rounded-lg p-6 text-center" style={{ borderColor: 'var(--color-border)' }}>
-            <p className="text-sm mb-4" style={{ color: 'var(--color-text-muted)' }}>리포트를 불러오지 못했습니다.</p>
-            <button
-              onClick={onRetry}
-              className="text-sm px-4 py-2 rounded-lg"
-              style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}
-            >
-              다시 시도
-            </button>
-          </div>
-        </section>
-      )
-    }
-    return (
-      <section id="reports" className="px-4 sm:px-6 py-6">
-        <div className="h-6 w-32 rounded animate-pulse mb-6" style={{ backgroundColor: 'var(--color-pill)' }}></div>
-        <div className="space-y-8">
-          {[1,2,3].map(i => (
-            <div key={i}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-8 w-8 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
-                <div className="h-5 w-24 rounded animate-pulse" style={{ backgroundColor: 'var(--color-pill)' }}></div>
-              </div>
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="text-center"><div className="h-3 w-16 rounded animate-pulse mx-auto mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div><div className="h-5 w-20 rounded animate-pulse mx-auto" style={{ backgroundColor: 'var(--color-pill)' }}></div></div>
-                <div className="text-center"><div className="h-3 w-16 rounded animate-pulse mx-auto mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div><div className="h-5 w-20 rounded animate-pulse mx-auto" style={{ backgroundColor: 'var(--color-pill)' }}></div></div>
-                <div className="text-center"><div className="h-3 w-16 rounded animate-pulse mx-auto mb-1" style={{ backgroundColor: 'var(--color-pill)' }}></div><div className="h-5 w-20 rounded animate-pulse mx-auto" style={{ backgroundColor: 'var(--color-pill)' }}></div></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  const tickerToSlug = { '005930': 'samsung', '000660': 'skhynix', '005380': 'hyundai' }
-
-  if (!reportsData.data || reportsData.data.length === 0) {
-    return (
-      <section id="reports" className="px-4 sm:px-6 py-6">
-        <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>{t.reportsTitle}</h2>
-        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>등록된 리포트가 없습니다.</p>
-      </section>
-    )
-  }
-
-  return (
-    <section id="reports" className="px-4 sm:px-6 py-6">
-      <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>{t.reportsTitle}</h2>
-      <div className="space-y-8">
-        {reportsData.data.map(stock => {
-          const { toss, brokerForecasts, wisereport, name, ticker } = stock
-          const consensus = toss?.consensus
-          const opinion = toss?.opinion
-          const logoSrc = LOGOS[tickerToSlug[ticker]]
-
-          return (
-            <div key={ticker}>
-              <div className="flex items-center gap-3 mb-4">
-                {logoSrc ? (
-                  <img src={logoSrc} alt={name} className="w-8 h-8 rounded-full object-cover" />
-                ) : (
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text)' }}>{name[0]}</div>
-                )}
-                <h3 className="font-bold text-lg" style={{ color: 'var(--color-text)' }}>{name}</h3>
-                {opinion && <span className="text-xs ml-auto" style={{ color: 'var(--color-text-muted)' }}>애널리스트 {opinion.total}명</span>}
-              </div>
-
-              {consensus && (
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div className="text-center">
-                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>평균 목표가</p>
-                    <p className="text-lg font-bold" style={{ color: 'var(--color-brand)' }}>{fmt(Math.round(consensus.meanKrw))}원</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>최고</p>
-                    <p className="text-lg font-bold" style={{ color: 'var(--color-up)' }}>{fmt(consensus.highKrw)}원</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>최저</p>
-                    <p className="text-lg font-bold" style={{ color: 'var(--color-down)' }}>{fmt(consensus.lowKrw)}원</p>
-                  </div>
-                </div>
-              )}
-
-              {opinion && (
-                <div className="mb-4">
-                  <div className="flex gap-0.5 h-2 rounded-full overflow-hidden">
-                    {opinion.strongBuy > 0 && <div style={{ flex: opinion.strongBuy, backgroundColor: '#16a34a' }}></div>}
-                    {opinion.buy > 0 && <div style={{ flex: opinion.buy, backgroundColor: '#22c55e' }}></div>}
-                    {opinion.hold > 0 && <div style={{ flex: opinion.hold, backgroundColor: '#eab308' }}></div>}
-                    {opinion.sell > 0 && <div style={{ flex: opinion.sell, backgroundColor: '#f87171' }}></div>}
-                    {opinion.strongSell > 0 && <div style={{ flex: opinion.strongSell, backgroundColor: '#dc2626' }}></div>}
-                  </div>
-                  <p className="text-[11px] mt-1.5" style={{ color: 'var(--color-text-muted)' }}>{opinion.description}</p>
-                </div>
-              )}
-
-              {wisereport && wisereport.length > 0 && (
-                <div className="mb-5">
-                  <p className="text-xs mb-2 font-medium" style={{ color: 'var(--color-text-dim)' }}>영업이익 추이 (조원)</p>
-                  <div className="flex items-end gap-2 h-20">
-                    {wisereport.map(w => {
-                      const val = w.operatingIncomeKrw / 1e12
-                      const maxAbs = Math.max(...wisereport.map(x => Math.abs(x.operatingIncomeKrw / 1e12)), 1)
-                      const height = Math.max((Math.abs(val) / maxAbs) * 100, 4)
-                      return (
-                        <div key={w.year} className="flex-1 flex flex-col items-center justify-end h-full">
-                          <span className="text-[10px] mb-0.5" style={{ color: val < 0 ? 'var(--color-down)' : 'var(--color-text-dim)' }}>{val < 0 ? '-' : ''}{Math.abs(val).toFixed(1)}</span>
-                          <div className="w-full rounded-t" style={{ height: `${height}%`, backgroundColor: w.status === 'estimate' ? 'var(--color-brand)' : val >= 0 ? 'var(--color-up)' : 'var(--color-down)', opacity: w.status === 'estimate' ? 0.5 : 0.8 }}></div>
-                          <p className="text-[10px] mt-1" style={{ color: 'var(--color-text-muted)' }}>{w.year}</p>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {brokerForecasts && brokerForecasts.length > 0 && (
-                <div>
-                  <p className="text-xs mb-2 font-medium" style={{ color: 'var(--color-text-dim)' }}>{t.recentReports}</p>
-                  <div className="border-t" style={{ borderColor: 'var(--color-border)' }}>
-                    {brokerForecasts.slice(0, 8).map((f, i) => (
-                      <a key={f.nid || i} href={f.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 py-2.5 border-b transition-opacity hover:opacity-70 no-underline" style={{ borderColor: 'var(--color-border)' }}>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm truncate" style={{ color: 'var(--color-text)' }}>{f.title}</p>
-                          <p className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{f.broker} · {f.publishedAt}</p>
-                        </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          {f.targetPriceKrw && <span className="text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>{fmt(f.targetPriceKrw)}원</span>}
-                          {f.opinion && <span className="text-[11px] px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--color-pill)', color: 'var(--color-text-dim)' }}>{f.opinion}</span>}
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )
-        })}
       </div>
     </section>
   )
@@ -1034,6 +880,7 @@ function Footer() {
   const [showUpdateLog, setShowUpdateLog] = useState(false)
 
   const updates = [
+    { date: '2026-10-07', text: '리포트 섹션 제거' },
     { date: '2026-09-21', text: '개인정보처리방침·이용약관 보강, ads.txt 추가, SEO 개선' },
     { date: '2026-08-31', text: '블로그 섹션 신설, SEO 최적화, 성능 개선' },
     { date: '2026-08-30', text: '접근성 개선, llms.txt 추가, 색상 대비 강화' },
@@ -1052,7 +899,6 @@ function Footer() {
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
         <Link to="/" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.dashboard}</Link>
         <Link to="/news" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.news}</Link>
-        <Link to="/reports" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.reports}</Link>
         <Link to="/blog" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.blog}</Link>
       </nav>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -1087,7 +933,7 @@ function Footer() {
       )}
 
       <div className="mt-4 pt-4 border-t space-y-1" style={{ borderColor: 'var(--color-border)' }}>
-        <p className="text-xs" style={{ opacity: 0.6 }}>데이터 출처: 해외 파생상품 거래소(참고가) · 금융 공공데이터(data.go.kr) · 공개 시장 데이터 · 다수 뉴스 제공사 · 토스 증권 공시</p>
+        <p className="text-xs" style={{ opacity: 0.6 }}>데이터 출처: 해외 파생상품 거래소(참고가) · 금융 공공데이터(data.go.kr) · 공개 시장 데이터 · 다수 뉴스 제공사</p>
         <p className="text-xs" style={{ opacity: 0.6 }}>해외 참고가는 공식 거래소 시세가 아니며, 투자 참고용으로만 활용하시기 바랍니다.</p>
         <p className="text-xs" style={{ opacity: 0.5 }}>본 서비스는 투자 참고용 정보를 제공하는 것이며, 투자 권유나 매매 중개를 하지 않습니다.</p>
       </div>
@@ -1126,8 +972,6 @@ function App() {
   })
   const [priceData, setPriceData] = useState(null)
   const [newsData, setNewsData] = useState(null)
-  const [reportsData, setReportsData] = useState(null)
-  const [reportsStatus, setReportsStatus] = useState('loading')
   const [lastUpdated, setLastUpdated] = useState(null)
 
   const fetchPrices = useCallback(async () => {
@@ -1149,29 +993,12 @@ function App() {
     } catch (e) { console.error('Failed to fetch news:', e) }
   }, [])
 
-  const fetchReports = useCallback(async () => {
-    try {
-      const res = await fetch('/api/reports')
-      const json = await res.json()
-      if (json.ok) {
-        setReportsData(json)
-        setReportsStatus('ready')
-      } else {
-        setReportsStatus('error')
-      }
-    } catch (e) {
-      console.error('Failed to fetch reports:', e)
-      setReportsStatus('error')
-    }
-  }, [])
-
   useEffect(() => {
-    fetchPrices(); fetchNews(); fetchReports()
+    fetchPrices(); fetchNews()
     const p = setInterval(fetchPrices, 30000)
     const n = setInterval(fetchNews, 300000)
-    const r = setInterval(fetchReports, 300000)
-    return () => { clearInterval(p); clearInterval(n); clearInterval(r) }
-  }, [fetchPrices, fetchNews, fetchReports])
+    return () => { clearInterval(p); clearInterval(n) }
+  }, [fetchPrices, fetchNews])
 
   useEffect(() => {
     document.documentElement.className = isDark ? 'dark' : 'light'
@@ -1180,7 +1007,7 @@ function App() {
 
   const location = useLocation()
   useEffect(() => {
-    const thinPaths = ['/news', '/reports']
+    const thinPaths = ['/news']
     let meta = document.querySelector('meta[name="robots"]')
     if (!meta) {
       meta = document.createElement('meta')
@@ -1203,7 +1030,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard data={priceData} newsData={newsData} t={t} />} />
           <Route path="/news" element={<NewsSection newsData={newsData} t={t} />} />
-          <Route path="/reports" element={<ReportsSection reportsData={reportsData} status={reportsStatus} onRetry={fetchReports} t={t} />} />
           <Route path="/blog" element={<BlogSection t={t} />} />
           <Route path="/blog/:slug" element={<BlogSection t={t} />} />
           <Route path="*" element={<NotFound />} />
