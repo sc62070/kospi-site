@@ -428,23 +428,73 @@ function Dashboard({ data, newsData }) {
 function HomeIntro({ posts }) {
   const featured = posts.slice(0, 6)
   return (
-    <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
-        <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>KOSPI.SITE는 어떤 곳인가요?</h2>
-        <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>
-          KOSPI.SITE는 삼성전자·SK하이닉스·현대차의 해외 참고가와 전일 종가, 시가총액을 한 화면에서 비교하는 투자 참고용 대시보드입니다. KOSPI·KOSDAQ 지수와 USD/KRW 환율, 증권 공시와 시장 브리핑도 함께 제공합니다. 주식 투자 기초, ETF, 세금, 재무제표, 기술적 분석까지 50여 편의 가이드를 블로그에서 확인할 수 있습니다.
-        </p>
-        <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
-          금융 용어가 궁금하다면 <Link to="/glossary" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>용어 사전</Link>,
-          답변이 필요하다면 <Link to="/faq" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>자주 묻는 질문</Link>,
-          운영 방식과 데이터 출처는 <Link to="/about" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>사이트 소개</Link>에서 확인하세요.
-        </p>
+    <div className="mt-8 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>KOSPI.SITE는 어떤 곳인가요?</h2>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>
+            KOSPI.SITE는 삼성전자·SK하이닉스·현대차의 해외 참고가와 전일 종가, 시가총액을 한 화면에서 비교하는 투자 참고용 대시보드입니다. KOSPI·KOSDAQ 지수와 USD/KRW 환율, 증권 공시와 시장 브리핑도 함께 제공합니다. 주식 투자 기초, ETF, 세금, 재무제표, 기술적 분석까지 50여 편의 가이드를 블로그에서 확인할 수 있습니다.
+          </p>
+          <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
+            삼성전자, SK하이닉스, 현대차는 시가총액과 거래량 기준으로 코스피를 움직이는 대표 종목입니다. 세 종목의 흐름만 잘 봐도 국내 증시의 방향이 어느 쪽으로 기울고 있는지 파악하는 데 도움이 됩니다. KOSPI.SITE는 이 세 종목의 가격 정보와 뉴스, 리포트를 한곳에 모아, 매번 여기저기 창을 띄워 확인해야 하는 수고를 줄여 줍니다. 초보자도 실전 투자자도 로그인 없이 무료로 사용할 수 있습니다.
+          </p>
+          <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
+            블로그에는 초보자를 위한 계좌 개설과 ETF 기초부터 배당·절세 전략, 재무제표 읽기, 이동평균선과 MACD 같은 기술적 분석까지 폭넓은 주제를 다루고 있습니다. 각 글은 실제 시장 데이터와 사례를 들어 설명하며, 글 안의 관련 글 링크로 이어지도록 구성해 한 주제를 깊이 있게 따라갈 수 있습니다.
+          </p>
+          <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
+            금융 용어가 궁금하다면 <Link to="/glossary" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>용어 사전</Link>,
+            답변이 필요하다면 <Link to="/faq" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>자주 묻는 질문</Link>,
+            운영 방식과 데이터 출처는 <Link to="/about" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>사이트 소개</Link>에서 확인하세요.
+          </p>
+        </div>
+
+        <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>한 화면에서 확인할 수 있는 것들</h2>
+          <ul className="text-sm leading-relaxed space-y-2" style={{ color: 'var(--color-text-dim)', paddingLeft: '1.1rem', margin: 0 }}>
+            <li><strong style={{ color: 'var(--color-text)' }}>해외 참고가 비교:</strong> 장중에도 해외 파생상품 거래소에서 움직이는 삼성전자·SK하이닉스·현대차의 가격을 원화와 달러로 환산해 보여 줍니다.</li>
+            <li><strong style={{ color: 'var(--color-text)' }}>지수와 환율:</strong> KOSPI·KOSDAQ 주요 지수와 USD/KRW 환율을 함께 확인할 수 있습니다.</li>
+            <li><strong style={{ color: 'var(--color-text)' }}>오늘의 시장 요약:</strong> 하루의 시장 흐름을 짧은 브리핑으로 정리해 드립니다.</li>
+            <li><strong style={{ color: 'var(--color-text)' }}>실시간 뉴스:</strong> 세 종목과 증시 전체 관련 뉴스 헤드라인을 제공합니다.</li>
+            <li><strong style={{ color: 'var(--color-text)' }}>리포트 컨센서스:</strong> 증권사 목표주가와 애널리스트 의견을 한눈에 비교합니다.</li>
+            <li><strong style={{ color: 'var(--color-text)' }}>용어 사전과 블로그:</strong> 어려운 금융 용어를 풀이하고, 투자 전략과 기초 지식을 글로 정리합니다.</li>
+          </ul>
+        </div>
       </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>데이터 출처와 갱신 방식</h2>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)' }}>
+            KOSPI.SITE가 사용하는 데이터는 금융 공공데이터(data.go.kr)와 공개 시장 데이터, 해외 파생상품 거래소의 참고가, 증권사 공시 정보 등 공개된 출처에서 수집합니다. 대시보드의 시세는 약 30초마다 자동으로 갱신되며, 리포트 정보는 매시간 갱신됩니다. 해외 참고가는 공식 거래소 시세가 아니므로 투자 판단의 절대 근거가 아니라 참고 자료로만 활용해야 합니다.
+          </p>
+          <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
+            로그인과 회원가입을 요구하지 않으므로 개인정보를 별도로 수집하지 않습니다. 사이트는 광고 수익으로 운영되며 모든 기능은 무료로 제공됩니다. 자세한 운영 원칙은 <Link to="/about" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>사이트 소개</Link>, 개인정보 처리에 관한 내용은 <Link to="/privacy" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>개인정보처리방침</Link>에서 확인할 수 있습니다. 데이터 오류나 문의 사항은 contact@kospi.site로 알려 주세요.
+          </p>
+        </div>
+
+        <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+          <h2 className="font-bold text-base mb-2" style={{ color: 'var(--color-text)' }}>자주 묻는 질문</h2>
+          <dl className="text-sm leading-relaxed" style={{ color: 'var(--color-text-dim)', margin: 0 }}>
+            <dt className="font-semibold mt-2" style={{ color: 'var(--color-text)' }}>회원가입이 필요한가요?</dt>
+            <dd style={{ margin: '2px 0 0' }}>아니요. 로그인이나 회원가입 없이 모든 기능을 무료로 사용할 수 있습니다.</dd>
+            <dt className="font-semibold mt-3" style={{ color: 'var(--color-text)' }}>제공하는 시세는 공식 시세인가요?</dt>
+            <dd style={{ margin: '2px 0 0' }}>해외 참고가는 공식 거래소 시세가 아닙니다. 전일 종가와 시가총액 등은 공개 시장 데이터를 따르며, 참고 자료로만 활용해 주세요.</dd>
+            <dt className="font-semibold mt-3" style={{ color: 'var(--color-text)' }}>투자 권유를 하는 사이트인가요?</dt>
+            <dd style={{ margin: '2px 0 0' }}>아니요. 투자 참고 정보를 제공할 뿐 매매 중개나 투자 권유를 하지 않습니다. 투자 판단과 그 결과에 대한 책임은 이용자 본인에게 있습니다.</dd>
+            <dt className="font-semibold mt-3" style={{ color: 'var(--color-text)' }}>모바일에서도 사용할 수 있나요?</dt>
+            <dd style={{ margin: '2px 0 0' }}>네. 화면 크기에 맞게 반응형으로 제공되며, 브라우저의 홈 화면에 추가 기능으로 앱처럼 설치해 사용할 수도 있습니다.</dd>
+            <dt className="font-semibold mt-3" style={{ color: 'var(--color-text)' }}>시세가 갱신되지 않을 때는 어떻게 하나요?</dt>
+            <dd style={{ margin: '2px 0 0' }}>네트워크 상황에 따라 갱신이 늦어질 수 있습니다. 잠시 기다리면 자동으로 다시 불러오며, 계속되면 접속한 기기의 인터넷 연결을 확인해 주세요.</dd>
+          </dl>
+          <Link to="/faq" className="inline-block mt-3 text-xs font-medium no-underline" style={{ color: 'var(--color-brand)' }}>전체 FAQ 보기 →</Link>
+        </div>
+      </div>
+
       <div className="card-surface rounded-2xl px-4 py-4 sm:px-6 sm:py-5" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
         <h2 className="font-bold text-base mb-3" style={{ color: 'var(--color-text)' }}>추천 글</h2>
-        <ul className="space-y-2" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <ul className="space-y-2 sm:columns-2 sm:gap-6" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {featured.map(post => (
-            <li key={post.slug} className="text-sm leading-snug">
+            <li key={post.slug} className="text-sm leading-snug break-inside-avoid">
               <Link to={`/blog/${post.slug}`} className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>{post.title}</Link>
               <span className="ml-2 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{post.date}</span>
             </li>
