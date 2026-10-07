@@ -1,0 +1,3 @@
+# ads.txt - Authorized Digital Sellers
+# https://www.gstatic.com/adsense/ads.txt
+google.com, pub-3187370930413699, DIRECT, f08c47fec0942fa0

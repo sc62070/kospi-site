@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>개인정보처리방침 - KOSPI.SITE</title>
-  <meta name="description" content="KOSPI.SITE 개인정보처리방침입니다." />
-  <meta name="robots" content="noindex" />
+  <meta name="description" content="KOSPI.SITE 개인정보처리방침. 쿠키, Google AdSense, Google Analytics 등 제3자 서비스를 통한 데이터 수집 및 이용에 대한 안내입니다." />
+  <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -23,52 +23,162 @@
     h1 { font-size: 1.8rem; margin-bottom: 0.5rem; color: #F0F6FC; }
     .date { color: #8B949E; font-size: 0.9rem; margin-bottom: 2rem; }
     h2 { font-size: 1.2rem; margin-top: 2rem; margin-bottom: 0.5rem; color: #F0F6FC; }
+    h3 { font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.4rem; color: #F0F6FC; }
     p, li { font-size: 0.95rem; margin-bottom: 0.8rem; }
-    ul { padding-left: 1.5rem; }
+    ul, ol { padding-left: 1.5rem; }
     a { color: #58A6FF; }
     .back { display: inline-block; margin-bottom: 1.5rem; color: #58A6FF; text-decoration: none; }
+    .highlight { background: #161B22; border-left: 3px solid #58A6FF; padding: 1rem 1.2rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+    .highlight p { margin-bottom: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    th, td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid #30363D; }
+    th { color: #F0F6FC; font-weight: 600; }
+    td { color: #C9D1D9; }
+    .section-divider { border: none; border-top: 1px solid #30363D; margin: 2rem 0; }
   </style>
 </head>
 <body>
   <div class="container">
     <a class="back" href="/">← KOSPI.SITE로 돌아가기</a>
     <h1>개인정보처리방침</h1>
-    <p class="date">최종 수정일: 2026년 8월 31일</p>
+    <p class="date">최종 수정일: 2026년 9월 21일</p>
+
+    <div class="highlight">
+      <p>KOSPI.SITE("https://kospi.site", 이하 "서비스")는 이용자의 개인정보를 중요시하며, 관련 법령을 준수합니다. 본 방침은 서비스 이용 시 수집되는 개인정보의 종류, 수집 및 이용 목적, 제3자 제공, 보유 기간, 이용자의 권리 등을 안내합니다.</p>
+    </div>
 
     <h2>1. 개인정보의 수집 및 이용</h2>
-    <p>KOSPI.SITE("https://kospi.site")는 다음과 같은 정보를 수집할 수 있습니다:</p>
+    <p>서비스는 회원가입이나 로그인 기능을 제공하지 않으므로, 이름, 이메일, 비밀번호 등 직접적인 개인정보를 수집하지 않습니다. 다만 서비스 이용 과정에서 다음 정보가 자동으로 수집될 수 있습니다:</p>
+    <table>
+      <tr><th>수집 항목</th><th>수집 목적</th><th>보유 기간</th></tr>
+      <tr><td>IP 주소</td><td>서비스 운영, 보안, 트래픽 분석</td><td>서비스 운영 기간</td></tr>
+      <tr><td>접속 시간, 페이지 조회수, 체류 시간</td><td>서비스 개선 및 사용자 경험 최적화</td><td>서비스 운영 기간</td></tr>
+      <tr><td>브라우저 종류, OS, 화면 해상도</td><td>기기별 최적화 및 호환성 확보</td><td>서비스 운영 기간</td></tr>
+      <tr><td>유입 경로 (검색어,referrer)</td><td>서비스 분석 및 개선</td><td>서비스 운영 기간</td></tr>
+    </table>
+
+    <h2>2. 쿠키의 사용</h2>
+    <p>서비스는 사용자 경험 개선과 광고 서비스 제공을 위해 쿠키(Cookie)를 사용합니다. 쿠키는 웹 서버가 사용자 브라우저에 전송하는 소량의 데이터 파일입니다.</p>
+
+    <h3>2-1. 사용되는 쿠키 목록</h3>
+    <table>
+      <tr><th>쿠키 제공자</th><th>쿠키 목적</th><th>쿠키 유형</th></tr>
+      <tr><td>Google Analytics (_ga, _gid, _gat)</td><td>방문자 분석, 트래픽 통계</td><td>제3자 쿠키</td></tr>
+      <tr><td>Google AdSense (test_cookie, NID)</td><td>광고 개인화, 광고 효과 측정</td><td>제3자 쿠키</td></tr>
+      <tr><td>Google (IDE, DSID)</td><td>광고 맞춤 설정 (DoubleClick)</td><td>제3자 쿠키</td></tr>
+      <tr><td>KOSPI.SITE (theme)</td><td>다크모드/라이트모드 설정 저장</td><td>제1자 쿠키</td></tr>
+    </table>
+
+    <h3>2-2. 쿠키 관리 방법</h3>
     <ul>
-      <li>방문 기록 (접속 시간, 페이지 조회수, 체류 시간)</li>
-      <li>기기 정보 (브라우저 종류, OS, 화면 해상도)</li>
-      <li>IP 주소</li>
-      <li>쿠키를 통한 사용자偏好 정보</li>
+      <li><strong>Chrome:</strong> 설정 → 개인정보 보호 → 쿠키 및 기타 사이트 데이터</li>
+      <li><strong>Safari:</strong> 환경설정 → 개인정보 보호 → 쿠키 및 웹 사이트 데이터</li>
+      <li><strong>Firefox:</strong> 설정 → 개인정보 및 보안 → 쿠키 및 사이트 데이터</li>
+      <li><strong>Edge:</strong> 설정 → 개인정보, 검색 및 서비스 → 쿠키 및 사이트 권한</li>
+    </ul>
+    <p>쿠키를 거부할 경우 일부 기능(다크모드 설정 저장 등)이 제한될 수 있으며, 광고 맞춤 설정이 비활성화될 수 있습니다.</p>
+
+    <hr class="section-divider" />
+
+    <h2>3. 제3자 서비스를 통한 데이터 수집</h2>
+    <p>서비스는 다음과 같은 제3자 서비스를 사용하며, 해당 서비스들이 쿠키를 통해 데이터를 수집합니다.</p>
+
+    <h3>3-1. Google Analytics</h3>
+    <ul>
+      <li><strong>제공자:</strong> Google Ireland Limited (유럽) / Google LLC (미국)</li>
+      <li><strong>목적:</strong> 웹사이트 트래픽 분석, 사용자 행동 분석, 서비스 개선</li>
+      <li><strong>수집 데이터:</strong> 페이지 조회, 체류 시간, 유입 경로, 기기 정보, IP 주소</li>
+      <li><strong>데이터 처리:</strong> Google의 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a>에 따름</li>
+      <li><strong>Opt-out:</strong> <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a> 설치 가능</li>
     </ul>
 
-    <h2>2. 수집 목적</h2>
+    <h3>3-2. Google AdSense</h3>
     <ul>
-      <li>서비스 개선 및 사용자 경험 최적화</li>
-      <li>트래픽 분석 및 통계</li>
-      <li>광고 서비스 제공 (Google AdSense)</li>
-      <li>법적 의무 준수</li>
+      <li><strong>제공자:</strong> Google Ireland Limited / Google LLC</li>
+      <li><strong>목적:</strong> 사용자 관심사 기반 광고 게재, 광고 효과 측정</li>
+      <li><strong>수집 데이터:</strong> 쿠키 기반 관심사 프로필, 광고 노출 및 클릭 데이터</li>
+      <li><strong>데이터 처리:</strong> Google의 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a> 및 <a href="https://www.google.com/intl/ko/policies/technologies/ads" target="_blank" rel="noopener">광고 기술 정책</a>에 따름</li>
+      <li><strong>Opt-out:</strong> <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 비활성화할 수 있음</li>
     </ul>
 
-    <h2>3. 제3자 정보 공유</h2>
-    <p>본 서비스는 Google AdSense 및 Google Analytics를 사용하며, 정보는 Google의 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a>에 따라 처리됩니다.</p>
+    <div class="highlight">
+      <p><strong>중요:</strong> Google AdSense는 DART(DoubleClick for Advertising) 쿠키를 사용하여 이전 사이트 방문 및 검색 기록을 기반으로 광고를 제공합니다. <a href="https://www.google.com/settings/ads/onweb" target="_blank" rel="noopener">Google 광고 설정</a>에서 관심 기반 광고를 비활성화할 수 있습니다.</p>
+    </div>
 
-    <h2>4. 쿠키</h2>
-    <p>본 서비스는 사용자 경험 개선 및 광고 서비스 제공을 위해 쿠키를 사용합니다. 브라우저 설정에서 쿠키를 거부할 수 있으나, 일부 기능이 제한될 수 있습니다.</p>
+    <h3>3-3. Google Ad Manager</h3>
+    <ul>
+      <li><strong>제공자:</strong> Google Ireland Limited / Google LLC</li>
+      <li><strong>목적:</strong> 광고 송출 관리, 광고 효과 측정</li>
+      <li><strong>데이터 처리:</strong> Google의 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a>에 따름</li>
+    </ul>
 
-    <h2>5. 광고</h2>
-    <p>Google AdSense를 통해 광고를 게재합니다. Google은 사용자 관심사에 기반한 광고 제공을 위해 쿠키를 사용할 수 있습니다. "<a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">광고 설정</a>"에서 맞춤 광고를 비활성화할 수 있습니다.</p>
+    <h3>3-4. Netlify (호스팅)</h3>
+    <ul>
+      <li><strong>제공자:</strong> Netlify, Inc.</li>
+      <li><strong>목적:</strong> 웹사이트 호스팅, 서버리스 함수 실행, CDN 배포</li>
+      <li><strong>수집 데이터:</strong> 서버 로그 (IP 주소, 접근 시간, 요청 경로)</li>
+      <li><strong>데이터 처리:</strong> Netlify의 <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">개인정보처리방침</a>에 따름</li>
+    </ul>
 
-    <h2>6. 데이터 보존</h2>
-    <p>수집된 데이터는 서비스 운영 기간 동안 보존되며, 서비스 종료 시 즉시 파기됩니다.</p>
+    <hr class="section-divider" />
+
+    <h2>4. 광고 관련 추가 정보</h2>
+    <p>서비스는 Google AdSense를 통해 광고를 게재합니다. 다음 사항을 유의하시기 바랍니다:</p>
+    <ul>
+      <li>광고주가 아닌 본 서비스 운영자가 직접 광고주와 거래하지 않습니다.</li>
+      <li>Google은 광고 최적화를 위해 쿠키를 사용할 수 있습니다.</li>
+      <li>광고 클릭 시 광고주 웹사이트로 이동하며, 해당 사이트의 개인정보처리방침이 별도로 적용됩니다.</li>
+      <li>광고 차단 프로그램(AdBlock 등)을 사용하면 광고가 표시되지 않을 수 있습니다.</li>
+    </ul>
+
+    <h2>5. EEA·영국·스위스 이용자 동의</h2>
+    <p>유럽 경제 지역(EEA), 영국, 스위스에서 방문하시는 이용자에게 맞춤형 광고를 제공하기 위해 Google 인증 동의 관리 플랫폼(CMP)이 적용될 수 있습니다. 비개인맞춤 광고의 경우에도 쿠키 사용에 필요한 동의가 요구될 수 있습니다.</p>
+    <p>서비스는 현재 별도의 CMP 팝업을 구현하지 않고 있으나, 향후 필요 시 Google 인증 CMP를 연결할 수 있습니다. EEA·영국·스위스 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 비활성화할 수 있습니다.</p>
+
+    <hr class="section-divider" />
+
+    <h2>6. 데이터 보존 및 파기</h2>
+    <ul>
+      <li><strong>서비스 수집 데이터:</strong> 서비스 운영 기간 동안 보존하며, 서비스 종료 시 즉시 파기됩니다.</li>
+      <li><strong>Google Analytics 데이터:</strong> Google 정책에 따라 14개월간 보존됩니다.</li>
+      <li><strong>Google AdSense 데이터:</strong> Google 정책에 따라 광고 캠페인 종료 후 최대 90일간 보존됩니다.</li>
+      <li><strong>쿠키:</strong> 브라우저 종료 또는 설정에 따라 삭제됩니다. _ga 쿠키는 2년, _gid 쿠키는 24시간 동안 유지됩니다.</li>
+    </ul>
 
     <h2>7. 이용자 권리</h2>
-    <p>이용자는 언제든지 개인정보 열람, 정정, 삭제를 요청할 수 있습니다. 요청은 이메일로 접수하시기 바랍니다.</p>
+    <p>이용자는 언제든지 다음과 같은 권리를 행사할 수 있습니다:</p>
+    <ul>
+      <li><strong>개인정보 열람권:</strong> 수집된 개인정보의 열람을 요청할 수 있습니다.</li>
+      <li><strong>개인정보 정정권:</strong> 부정확한 개인정보의 정정을 요청할 수 있습니다.</li>
+      <li><strong>개인정보 삭제권:</strong> 수집된 개인정보의 삭제를 요청할 수 있습니다.</li>
+      <li><strong>개인정보 처리정지권:</strong> 개인정보 처리를 중지하도록 요청할 수 있습니다.</li>
+    </ul>
+    <p>이용자의 권리는 이메일(contact@kospi.site)로 접수해 주시면 7일 이내에 처리해 드립니다.</p>
 
-    <h2>8. 연락처</h2>
-    <p>개인정보 관련 문의: contact@kospi.site</p>
+    <h2>8. 아동의 개인정보 보호</h2>
+    <p>서비스는 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다. 만 14세 미만 아동이 부모의 동의 없이 개인정보를 제공한 것으로 확인될 경우, 해당 정보는 즉시 파기됩니다.</p>
+
+    <h2>9. 개인정보 보호 조치</h2>
+    <p>서비스는 이용자의 개인정보를 보호하기 위해 다음과 같은 조치를 취하고 있습니다:</p>
+    <ul>
+      <li>HTTPS(SSL/TLS) 암호화 통신을 적용하여 데이터 전송 시 암호화됩니다.</li>
+      <li>Netlify의 보안 인프라를 활용하여 서버 보안을 유지합니다.</li>
+      <li>불필요한 개인정보 수집을 최소화하고 있습니다.</li>
+    </ul>
+
+    <h2>10. 개인정보 처리방침 변경</h2>
+    <p>본 방침은 서비스 개선에 따라 변경될 수 있으며, 변경 시 본 페이지에 최종 수정일과 함께 공지합니다. 변경된 방침은 공지 시점부터 적용됩니다.</p>
+
+    <h2>11. 연락처</h2>
+    <p>개인정보 관련 문의는 아래 이메일로 접수해 주시기 바랍니다:</p>
+    <ul>
+      <li><strong>이메일:</strong> contact@kospi.site</li>
+      <li><strong>답변 기한:</strong> 영업일 기준 3일 이내</li>
+    </ul>
+
+    <hr class="section-divider" />
+
+    <p style="margin-top: 2rem; font-size: 0.85rem; color: #8B949E;">© 2026 KOSPI.SITE. All rights reserved.</p>
   </div>
 </body>
 </html>
