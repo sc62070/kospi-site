@@ -7,6 +7,7 @@
 - [대시보드](https://kospi.site) - 실시간 주식 시세 비교 (삼성전자, SK하이닉스, 현대차)
 - [뉴스](https://kospi.site/news) - 시장 브리핑 및 최신 뉴스
 - [블로그](https://kospi.site/blog) - 투자 가이드 및 시장 분석
+- [투자 계산기](https://kospi.site/calculator) - 복리·적립식 투자, 목표 금액, 배당 수익률, 주식 양도소득세 계산
 
 ## 블로그 콘텐츠
 

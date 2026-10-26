@@ -14,6 +14,7 @@ export const translations = {
     faq: '자주 묻는 질문',
     terms: '이용약관',
     privacy: '개인정보처리방침',
+    calculator: '계산기',
     updateNote: '대시보드는 30초마다 갱신됩니다.',
     dataSource: '데이터 출처: 해외 참고가(해외 파생상품 거래소) · 공공데이터(금융위 등 공공기관) · 공개 시장 데이터',
     overseasDisclaimer: '해외 참고가는 공식 거래소 시세가 아니며, 투자 판단의 참고 자료로만 제공됩니다.',
