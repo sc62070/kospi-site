@@ -134,27 +134,35 @@ function Navigation() {
     { id: 'dashboard', label: t.dashboard, to: '/' },
     { id: 'news', label: t.news, to: '/news' },
     { id: 'blog', label: t.blog, to: '/blog' },
+    { id: 'calculator', label: t.calculator, to: '/calculator', external: true },
   ]
 
   return (
     <nav className="sticky top-0 z-40 mb-6 -mx-4 sm:-mx-6 px-4 sm:px-6 backdrop-blur border-b overflow-x-auto" style={{ backgroundColor: 'var(--color-bg0)', borderColor: 'var(--color-border)', scrollbarWidth: 'none' }}>
       <ul className="flex gap-4 sm:gap-10 min-w-max" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        {tabs.map(tab => (
-          <li key={tab.id}>
-            <Link
-              to={tab.to}
-              className="relative block py-3 sm:py-4 text-[17px] sm:text-lg tracking-tight whitespace-nowrap transition-colors duration-200 cursor-pointer no-underline"
-              style={{
-                color: path === tab.id ? 'var(--color-text)' : 'var(--color-text-dim)',
-                fontWeight: path === tab.id ? 600 : 500,
-                backgroundColor: 'transparent',
-              }}
-            >
+        {tabs.map(tab => {
+          const style = {
+            color: path === tab.id ? 'var(--color-text)' : 'var(--color-text-dim)',
+            fontWeight: path === tab.id ? 600 : 500,
+            backgroundColor: 'transparent',
+          }
+          const className = 'relative block py-3 sm:py-4 text-[17px] sm:text-lg tracking-tight whitespace-nowrap transition-colors duration-200 cursor-pointer no-underline'
+          const inner = (
+            <>
               {tab.label}
               <span className="absolute -bottom-px left-0 right-0 h-[2.5px] sm:h-[3px] rounded-full transition-opacity duration-200" style={{ backgroundColor: 'var(--color-brand)', opacity: path === tab.id ? 1 : 0 }}></span>
-            </Link>
-          </li>
-        ))}
+            </>
+          )
+          return (
+            <li key={tab.id}>
+              {tab.external ? (
+                <a href={tab.to} className={className} style={style}>{inner}</a>
+              ) : (
+                <Link to={tab.to} className={className} style={style}>{inner}</Link>
+              )}
+            </li>
+          )
+        })}
       </ul>
     </nav>
   )
@@ -441,6 +449,9 @@ function HomeIntro({ posts }) {
             블로그에는 초보자를 위한 계좌 개설과 ETF 기초부터 배당·절세 전략, 재무제표 읽기, 이동평균선과 MACD 같은 기술적 분석까지 폭넓은 주제를 다루고 있습니다. 각 글은 실제 시장 데이터와 사례를 들어 설명하며, 글 안의 관련 글 링크로 이어지도록 구성해 한 주제를 깊이 있게 따라갈 수 있습니다.
           </p>
           <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
+            복리 적립식 투자, 목표 금액, 배당 수익률, 양도소득세는 <a href="/calculator" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>투자 계산기</a>에서 바로 계산해 볼 수 있습니다. 계산에 사용한 공식과 실제 계산 예시도 함께 공개합니다.
+          </p>
+          <p className="text-sm leading-relaxed mt-3" style={{ color: 'var(--color-text-dim)' }}>
             금융 용어가 궁금하다면 <Link to="/glossary" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>용어 사전</Link>,
             답변이 필요하다면 <Link to="/faq" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>자주 묻는 질문</Link>,
             운영 방식과 데이터 출처는 <Link to="/about" className="no-underline font-medium" style={{ color: 'var(--color-brand)' }}>사이트 소개</Link>에서 확인하세요.
@@ -455,6 +466,7 @@ function HomeIntro({ posts }) {
             <li><strong style={{ color: 'var(--color-text)' }}>오늘의 시장 요약:</strong> 하루의 시장 흐름을 짧은 브리핑으로 정리해 드립니다.</li>
             <li><strong style={{ color: 'var(--color-text)' }}>실시간 뉴스:</strong> 세 종목과 증시 전체 관련 뉴스 헤드라인을 제공합니다.</li>
             <li><strong style={{ color: 'var(--color-text)' }}>용어 사전과 블로그:</strong> 어려운 금융 용어를 풀이하고, 투자 전략과 기초 지식을 글로 정리합니다.</li>
+            <li><strong style={{ color: 'var(--color-text)' }}>투자 계산기:</strong> 복리 적립식 투자, 목표 금액 달성, 배당 수익률, 주식 양도소득세를 공식과 함께 직접 계산해 볼 수 있습니다.</li>
           </ul>
         </div>
       </div>
@@ -643,8 +655,10 @@ function BlogSection() {
       "@type": "Article",
       "headline": selectedPost.title,
       "datePublished": selectedPost.date,
-      "author": { "@type": "Organization", "name": "KOSPI.SITE" },
-      "publisher": { "@type": "Organization", "name": "KOSPI.SITE" },
+      "inLanguage": "ko-KR",
+      ...(selectedPost.dateModified ? { "dateModified": selectedPost.dateModified } : {}),
+      "author": { "@type": "Organization", "name": "KOSPI.SITE", "url": "https://kospi.site" },
+      "publisher": { "@type": "Organization", "name": "KOSPI.SITE", "url": "https://kospi.site" },
       "description": selectedPost.summary,
       "image": selectedPost.thumbnail,
       "mainEntityOfPage": `https://kospi.site/blog/${selectedPost.slug}`
@@ -659,10 +673,25 @@ function BlogSection() {
         <article>
           <div className="mb-4 flex items-center gap-3 flex-wrap">
             <span className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}>{selectedPost.category}</span>
-            <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{selectedPost.date}</span>
             <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>약 {readingTime}분 소요</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-8 leading-tight" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4 leading-tight" style={{ color: 'var(--color-text)' }}>{selectedPost.title}</h1>
+          <div className="mb-6 flex items-center gap-2 flex-wrap text-xs" style={{ color: 'var(--color-text-muted)' }}>
+            <span
+              className="inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold shrink-0"
+              style={{ backgroundColor: 'var(--color-brand-dim)', color: 'var(--color-brand)' }}
+              aria-hidden="true"
+            >K</span>
+            <span style={{ color: 'var(--color-text)', fontWeight: 600 }}>필명 KOSPI.SITE</span>
+            <span aria-hidden="true">·</span>
+            <span>{selectedPost.date} 게시</span>
+            {selectedPost.dateModified && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{selectedPost.dateModified} 최종 검증·수정</span>
+              </>
+            )}
+          </div>
           <div className="h-px mb-8" style={{ backgroundColor: 'var(--color-border)' }}></div>
           <div
             className="blog-content text-[15px] leading-relaxed"
@@ -880,6 +909,7 @@ function Footer() {
   const [showUpdateLog, setShowUpdateLog] = useState(false)
 
   const updates = [
+    { date: '2026-10-26', text: '투자 계산기 4종 신설 (복리·목표금액·배당·양도소득세)' },
     { date: '2026-10-07', text: '리포트 섹션 제거' },
     { date: '2026-09-21', text: '개인정보처리방침·이용약관 보강, ads.txt 추가, SEO 개선' },
     { date: '2026-08-31', text: '블로그 섹션 신설, SEO 최적화, 성능 개선' },
@@ -900,6 +930,7 @@ function Footer() {
         <Link to="/" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.dashboard}</Link>
         <Link to="/news" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.news}</Link>
         <Link to="/blog" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.blog}</Link>
+        <a href="/calculator" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.calculator}</a>
       </nav>
       <nav className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
         <a href="/about" className="hover:underline" style={{ color: 'var(--color-brand)' }}>{t.siteIntro}</a>

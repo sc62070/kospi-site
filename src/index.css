@@ -262,6 +262,37 @@ img {
   color: var(--color-text-dim);
 }
 
+/* 출처 표기 및 개정 안내 */
+.blog-content p.post-source {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--color-text-dim);
+  border-left: 2px solid var(--color-border);
+  padding-left: 10px;
+  margin: 2px 0 18px;
+}
+
+.blog-content p.post-source a {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-content .post-notice {
+  border: 1px solid var(--color-border);
+  background: var(--color-pill);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text-dim);
+}
+
+.blog-content .post-notice strong {
+  color: var(--color-text);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ping,
   .animate-pulse {
